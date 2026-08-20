@@ -2,6 +2,10 @@
 
 A complete product-first reimagining of the ChatBlu landing page. The experience follows one central idea: a guest asks, ChatBlu understands, and the hotel moves.
 
+## Live site
+
+[View the deployed ChatBlu experience](https://varunjose.github.io/Chatblu-Assignment/)
+
 ## Experience highlights
 
 - Live hero conversation that separates, interprets, and routes multiple guest intents
