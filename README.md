@@ -1,7 +1,5 @@
 # ChatBlu — One Platform. The Entire Operation.
 
-A focused redesign of ChatBlu’s landing page that explains how one AI platform supports both the guest experience and the hotel operation.
-
 **Live site:** [varunjose.github.io/Chatblu-Assignment](https://varunjose.github.io/Chatblu-Assignment/)
 
 ## Key product and design decisions
