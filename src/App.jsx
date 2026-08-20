@@ -1,179 +1,159 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-import {
-  AnimatePresence,
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-} from 'framer-motion'
+import { useEffect, useState } from 'react'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import Lenis from 'lenis'
 import {
-  AlertTriangle,
   ArrowRight,
-  BedDouble,
+  BarChart3,
   BellRing,
-  BookOpen,
-  Bot,
-  BrainCircuit,
+  BriefcaseBusiness,
   Building2,
-  Car,
+  CalendarCheck2,
   Check,
-  ChevronDown,
+  ChevronRight,
   CircleCheck,
   Clock3,
-  Headphones,
-  Inbox,
-  ListChecks,
+  HeartHandshake,
+  Hotel,
+  LineChart,
   Menu,
   MessageCircle,
-  Network,
-  Route,
-  Send,
+  MoonStar,
   Sparkles,
-  Utensils,
-  Wifi,
-  Wrench,
+  SunMedium,
+  UserRoundCheck,
+  UsersRound,
+  UtensilsCrossed,
+  Workflow,
   X,
 } from 'lucide-react'
+import './styles.css'
 
-const officialSite = 'https://chatblu.ai/'
 const bookDemoUrl = 'https://chatblu.ai/book/'
+const logoUrl = `${import.meta.env.BASE_URL}logo-chatblu.svg`
 const imageBase = `${import.meta.env.BASE_URL}images/`
 
 const navItems = [
-  ['Product', '#product'],
-  ['Guest Experience', '#guest-experience'],
-  ['Hotel Operations', '#hotel-operations'],
-  ['How It Works', '#how-it-works'],
+  ['Platform', '#platform'],
+  ['Watch demo', '#watch-demo'],
+  ['Who it is for', '#for-hotels'],
+  ['Value', '#value'],
   ['Why ChatBlu', '#why-chatblu'],
 ]
 
-const journeyStages = [
+const guestOperations = [
   {
-    label: 'Before Arrival',
-    time: '11:42 AM',
-    guest: 'Can I arrive around noon?',
-    intent: 'Early arrival',
-    action: 'Shares check-in guidance and starts the early-arrival workflow.',
-    reply: 'I’ve shared the arrival details and let the hotel know.',
+    number: '01',
+    moment: 'Before arrival',
+    title: 'Check-in, already prepared',
+    description:
+      'Confirm details, collect preferences, coordinate early arrivals, and answer questions on WhatsApp, voice, or chat.',
+    icon: CalendarCheck2,
+    view: 'arrival',
   },
   {
-    label: 'Arrival',
-    time: '3:08 PM',
-    guest: 'Where should I park?',
-    intent: 'Property information',
-    action: 'Uses property-specific arrival information.',
-    reply: 'The guest garage entrance is just past the main drive.',
+    number: '02',
+    moment: 'During the stay',
+    title: 'Dinner, reserved',
+    description:
+      'Find the right table, remember dietary needs, make the booking, and post eligible charges back to the folio.',
+    icon: UtensilsCrossed,
+    view: 'dining',
   },
   {
-    label: 'During Stay',
-    time: '7:16 PM',
-    guest: 'Can you recommend somewhere for dinner?',
-    intent: 'Dining recommendation',
-    action: 'Brings forward hotel-aware dining guidance.',
-    reply: 'Here are a few nearby options selected for your evening.',
+    number: '03',
+    moment: 'Wellness',
+    title: 'Spa, thoughtfully booked',
+    description:
+      'Recommend treatments, fill open appointments, remember therapist preferences, and confirm every detail.',
+    icon: Sparkles,
+    view: 'wellness',
   },
   {
-    label: 'Service Request',
-    time: '9:34 PM',
-    guest: 'Could I get extra pillows?',
-    intent: 'Housekeeping request',
-    action: 'Routes a clear request to the appropriate team.',
-    reply: 'Housekeeping has your request. The pillows are on the way.',
-  },
-  {
-    label: 'Departure',
-    time: '8:20 AM',
-    guest: 'Can I check out later?',
-    intent: 'Late checkout',
-    action: 'Checks policy context and requests staff approval.',
-    reply: 'I’m checking availability with the front desk now.',
+    number: '04',
+    moment: 'Any hour',
+    title: 'Every request, followed through',
+    description:
+      'Handle transport, room service, housekeeping, local recommendations, and service recovery, with a human handoff when judgment matters.',
+    icon: MoonStar,
+    view: 'requests',
   },
 ]
 
-const useCases = {
-  'Guest Information': {
-    icon: BookOpen,
-    guest: 'What time does the pool close?',
-    understanding: 'Amenity hours · Pool',
-    action: 'Find the property-approved answer',
-    outcome: 'The pool is open until 10 PM this evening.',
-    team: 'Answered instantly',
+const hotelOperations = [
+  {
+    number: '01',
+    moment: 'On demand',
+    title: 'Financial analysis, in plain English',
+    description:
+      'Ask questions about the P&L, compare departments, surface anomalies, and understand what changed without building another report.',
+    icon: BarChart3,
+    view: 'analysis',
   },
-  Housekeeping: {
-    icon: BedDouble,
-    guest: 'Could we get two extra bath towels?',
-    understanding: 'Service request · Towels · Room context',
-    action: 'Create a clear housekeeping request',
-    outcome: 'Housekeeping has accepted your towel request.',
-    team: 'Assigned to Housekeeping',
+  {
+    number: '02',
+    moment: 'Live property view',
+    title: 'Occupancy that explains itself',
+    description:
+      'Track occupancy, ADR, RevPAR, pickup, cancellations, and pace, with context across dates and properties.',
+    icon: LineChart,
+    view: 'property',
   },
-  Maintenance: {
-    icon: Wrench,
-    guest: "My shower isn't getting hot.",
-    understanding: 'Maintenance issue · Plumbing / hot water',
-    action: 'Route room and issue summary to maintenance',
-    outcome: "We've notified the hotel team and will keep you updated.",
-    team: 'Maintenance notified',
+  {
+    number: '03',
+    moment: 'Every morning',
+    title: 'The GM briefing, ready',
+    description:
+      'Review arrivals, VIPs, unresolved requests, staffing pressure, revenue movement, and operational risks before the first meeting.',
+    icon: SunMedium,
+    view: 'briefing',
   },
-  Dining: {
-    icon: Utensils,
-    guest: 'Can I order breakfast for tomorrow morning?',
-    understanding: 'Dining request · Scheduled service',
-    action: 'Surface the appropriate hotel workflow',
-    outcome: 'I can help get that request to the right team.',
-    team: 'Dining workflow ready',
+  {
+    number: '04',
+    moment: 'Across departments',
+    title: 'Work routed and closed',
+    description:
+      'Turn guest intent into housekeeping, finance, HR, and operations workflows, then write outcomes back to each system of record.',
+    icon: Workflow,
+    view: 'workflow',
   },
-  Concierge: {
-    icon: Sparkles,
-    guest: 'Where can we hear live music tonight?',
-    understanding: 'Local recommendation · Evening activity',
-    action: 'Prepare a hotel-aware recommendation',
-    outcome: 'Here are a few nearby options for tonight.',
-    team: 'Guest guidance prepared',
-  },
-  'Check-in / Checkout': {
-    icon: Clock3,
-    guest: 'Could we check out at 2 PM?',
-    understanding: 'Late checkout · Approval may be required',
-    action: 'Route with policy and stay context',
-    outcome: "We're checking late-checkout availability for you.",
-    team: 'Front Desk review',
-  },
-  'Service Recovery': {
-    icon: Headphones,
-    guest: 'The AC still is not working. This is my second message.',
-    understanding: 'Repeated issue · Negative sentiment',
-    action: 'Escalate with conversation summary and context',
-    outcome: 'A team member is stepping in to help personally.',
-    team: 'Human attention recommended',
-  },
-}
+]
 
-const faqs = [
+const audiences = [
   {
-    q: 'What does ChatBlu actually do?',
-    a: 'ChatBlu helps hotels respond to guest questions and move guest requests toward action. It understands the conversation, uses property context, and either answers, routes, or hands the request to a hotel team.',
+    icon: Hotel,
+    label: 'Hotel leaders',
+    title: 'See the whole property without chasing every detail.',
+    copy: 'A clearer view of guest needs, operating pressure, and what deserves attention next.',
   },
   {
-    q: 'What types of guest requests can it handle?',
-    a: 'ChatBlu is designed for common hospitality moments: property information, amenity questions, housekeeping needs, maintenance issues, dining inquiries, arrival and departure questions, and situations that require staff attention.',
+    icon: HeartHandshake,
+    label: 'Guest-facing teams',
+    title: 'Stay present with guests, not buried in repetitive work.',
+    copy: 'Consistent answers and thoughtful follow-through, with people stepping in when judgment matters.',
   },
   {
-    q: 'How does ChatBlu know when to involve staff?',
-    a: 'The experience is designed to recognize requests that need approval, operational follow-through, or human judgment. Those moments can be packaged with the relevant conversation and property context for the team.',
+    icon: UsersRound,
+    label: 'Department teams',
+    title: 'Receive work with context, ownership, and a path to closure.',
+    copy: 'Less ambiguity between departments and a shared understanding of the guest behind each request.',
+  },
+]
+
+const differences = [
+  {
+    number: '01',
+    title: 'One shared intelligence',
+    copy: 'Guest preferences, property context, and operational priorities inform the same conversation.',
   },
   {
-    q: 'Does ChatBlu replace hotel staff?',
-    a: 'No. ChatBlu handles predictable communication and organizes routine follow-through so hotel teams can spend more attention on complex, sensitive, and memorable guest moments.',
+    number: '02',
+    title: 'Action, not another inbox',
+    copy: 'ChatBlu moves from understanding a request to coordinating what should happen next.',
   },
   {
-    q: 'Can ChatBlu use information specific to our property?',
-    a: 'Yes. Property-aware answers are central to the product experience: hotel information, services, policies, and operating context can inform how ChatBlu responds.',
-  },
-  {
-    q: 'How does ChatBlu fit into existing hotel operations?',
-    a: 'ChatBlu is presented as an intelligence layer between guest conversations and hotel workflows. The exact implementation should be scoped with the ChatBlu team around each property’s current operation.',
+    number: '03',
+    title: 'Hospitality in the loop',
+    copy: 'Automation handles the predictable. Hotel teams keep the moments that need empathy and judgment.',
   },
 ]
 
@@ -184,19 +164,18 @@ function SmoothScroll() {
     if (reduceMotion) return undefined
 
     const lenis = new Lenis({
-      duration: 1.08,
+      duration: 1.05,
       smoothWheel: true,
       wheelMultiplier: 0.92,
-      anchors: { offset: -86 },
+      anchors: { offset: -90 },
     })
     let frame
-
     const raf = (time) => {
       lenis.raf(time)
       frame = requestAnimationFrame(raf)
     }
-
     frame = requestAnimationFrame(raf)
+
     return () => {
       cancelAnimationFrame(frame)
       lenis.destroy()
@@ -206,25 +185,20 @@ function SmoothScroll() {
   return null
 }
 
-function Logo({ compact = false }) {
+function Brand({ footer = false }) {
   return (
-    <a className="brand" href="#top" aria-label="ChatBlu home">
-      <span className="brand-mark" aria-hidden="true">
-        <i />
-        <i />
-      </span>
-      {!compact && <span>ChatBlu</span>}
+    <a className={`brand ${footer ? 'brand--footer' : ''}`} href="#top" aria-label="ChatBlu home">
+      <img src={logoUrl} alt="ChatBlu" />
     </a>
   )
 }
 
-function PrimaryButton({ children, href = bookDemoUrl, dark = false, onClick }) {
+function ArrowButton({ children, href, variant = 'primary', external = false }) {
   return (
     <a
-      className={`button button-primary${dark ? ' button-dark' : ''}`}
+      className={`button button--${variant}`}
       href={href}
-      onClick={onClick}
-      {...(href.startsWith('http') ? { target: '_blank', rel: 'noreferrer' } : {})}
+      {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}
     >
       <span>{children}</span>
       <ArrowRight size={17} aria-hidden="true" />
@@ -232,21 +206,29 @@ function PrimaryButton({ children, href = bookDemoUrl, dark = false, onClick }) 
   )
 }
 
-function SecondaryButton({ children, href }) {
+function Reveal({ children, className = '', delay = 0, direction = 'up' }) {
+  const reduceMotion = useReducedMotion()
+  const axis = direction === 'left' ? { x: 28, y: 0 } : direction === 'right' ? { x: -28, y: 0 } : { x: 0, y: 28 }
+
   return (
-    <a className="button button-secondary" href={href}>
-      <span>{children}</span>
-      <ArrowRight size={17} aria-hidden="true" />
-    </a>
+    <motion.div
+      className={className}
+      initial={reduceMotion ? false : { opacity: 0, ...axis }}
+      whileInView={reduceMotion ? undefined : { opacity: 1, x: 0, y: 0 }}
+      viewport={{ once: true, amount: 0.16 }}
+      transition={{ duration: 0.72, delay, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {children}
+    </motion.div>
   )
 }
 
-function Navigation() {
-  const [scrolled, setScrolled] = useState(false)
+function Header() {
   const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 36)
+    const onScroll = () => setScrolled(window.scrollY > 24)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
@@ -258,35 +240,43 @@ function Navigation() {
   }, [open])
 
   return (
-    <header className={`site-nav${scrolled ? ' is-scrolled' : ''}`}>
-      <div className="nav-shell">
-        <Logo />
-        <nav className="desktop-nav" aria-label="Primary navigation">
+    <header className={`site-header ${scrolled ? 'is-scrolled' : ''}`}>
+      <div className="header-inner">
+        <Brand />
+        <nav className="desktop-nav" aria-label="Main navigation">
           {navItems.map(([label, href]) => (
-            <a key={href} href={href}>{label}</a>
+            <a key={href} href={href}>
+              {label}
+            </a>
           ))}
         </nav>
-        <div className="nav-actions">
-          <PrimaryButton>Book a Demo</PrimaryButton>
+        <div className="header-actions">
+          <a className="header-demo" href={bookDemoUrl} target="_blank" rel="noreferrer">
+            Book a demo <ArrowRight size={15} aria-hidden="true" />
+          </a>
           <button
             className="menu-button"
             type="button"
-            aria-label={open ? 'Close menu' : 'Open menu'}
             aria-expanded={open}
+            aria-controls="mobile-navigation"
+            aria-label={open ? 'Close menu' : 'Open menu'}
             onClick={() => setOpen((value) => !value)}
           >
-            {open ? <X /> : <Menu />}
+            {open ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </div>
+
       <AnimatePresence>
         {open && (
           <motion.nav
+            id="mobile-navigation"
             className="mobile-nav"
             aria-label="Mobile navigation"
-            initial={{ opacity: 0, y: -12 }}
+            initial={{ opacity: 0, y: -14 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
+            exit={{ opacity: 0, y: -14 }}
+            transition={{ duration: 0.22 }}
           >
             {navItems.map(([label, href], index) => (
               <motion.a
@@ -295,12 +285,15 @@ function Navigation() {
                 onClick={() => setOpen(false)}
                 initial={{ opacity: 0, x: -12 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.04 }}
+                transition={{ delay: index * 0.045 }}
               >
-                <span>{label}</span><ArrowRight size={18} />
+                <span>{label}</span>
+                <ChevronRight size={18} />
               </motion.a>
             ))}
-            <PrimaryButton>Book a Demo</PrimaryButton>
+            <ArrowButton href={bookDemoUrl} external>
+              Book a demo
+            </ArrowButton>
           </motion.nav>
         )}
       </AnimatePresence>
@@ -308,719 +301,373 @@ function Navigation() {
   )
 }
 
-function Reveal({ children, className = '', delay = 0, direction = 'up' }) {
-  const reduceMotion = useReducedMotion()
-  const offsets = {
-    up: { y: 42, x: 0 },
-    left: { x: -34, y: 0 },
-    right: { x: 34, y: 0 },
-  }
-  const offset = offsets[direction] || offsets.up
-
-  return (
-    <motion.div
-      className={className}
-      initial={reduceMotion ? false : { opacity: 0, ...offset, scale: 0.975, filter: 'blur(5px)' }}
-      whileInView={{ opacity: 1, x: 0, y: 0, scale: 1, filter: 'blur(0px)' }}
-      viewport={{ once: true, amount: 0.18 }}
-      transition={{ duration: 0.68, delay, ease: [0.22, 1, 0.36, 1] }}
-    >
-      {children}
-    </motion.div>
-  )
-}
-
-function SectionLabel({ children }) {
-  return (
-    <div className="section-label">
-      <span aria-hidden="true" />
-      {children}
-    </div>
-  )
-}
-
-function FlowPath({ vertical = false, className = '' }) {
-  return (
-    <div className={`flow-path${vertical ? ' is-vertical' : ''} ${className}`} aria-hidden="true">
-      <span className="flow-path-line" />
-      <span className="flow-pulse" />
-    </div>
-  )
-}
-
-function HeroProduct() {
-  const reduceMotion = useReducedMotion()
-  const [phase, setPhase] = useState(reduceMotion ? 4 : 0)
-
-  useEffect(() => {
-    if (reduceMotion) {
-      setPhase(4)
-      return undefined
-    }
-    const timer = window.setInterval(() => setPhase((value) => (value + 1) % 5), 1450)
-    return () => window.clearInterval(timer)
-  }, [reduceMotion])
-
-  return (
-    <div className="hero-product" aria-label="Animated ChatBlu request workflow">
-      <div className="demo-window-top">
-        <div className="window-dots"><i /><i /><i /></div>
-        <span>Live guest request</span>
-        <span className="live-status"><i /> Live</span>
-      </div>
-
-      <div className="guest-message-card">
-        <div className="message-avatar">MC</div>
-        <div>
-          <div className="message-meta"><strong>Guest · Room 412</strong><span>now</span></div>
-          <p>“Could I get two more towels and a late checkout?”</p>
-        </div>
-      </div>
-
-      <div className="hero-flow-stage" aria-live="polite">
-        <div className="hero-flow-core">
-          <span className="mini-brand-mark"><Bot size={17} /></span>
-          <span>ChatBlu</span>
-          {phase === 0 ? (
-            <span className="typing"><i /><i /><i /></span>
-          ) : (
-            <span className="understood"><Check size={13} /> Understood</span>
-          )}
-        </div>
-
-        <AnimatePresence mode="wait">
-          {phase === 0 && (
-            <motion.div
-              key="thinking"
-              className="processing-copy"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              Understanding the request…
-            </motion.div>
-          )}
-
-          {phase >= 1 && (
-            <motion.div
-              key="intents"
-              className="intent-grid"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <div className="intent-card">
-                <div className="intent-icon"><BedDouble size={17} /></div>
-                <div><span>Intent 01</span><strong>Extra towels</strong></div>
-                <ArrowRight size={15} />
-                <b>Housekeeping</b>
-              </div>
-              <div className="intent-card">
-                <div className="intent-icon"><Clock3 size={17} /></div>
-                <div><span>Intent 02</span><strong>Late checkout</strong></div>
-                <ArrowRight size={15} />
-                <b>Front Desk</b>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        <AnimatePresence>
-          {phase >= 2 && (
-            <motion.div
-              className="hero-status-row"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-            >
-              <span><CircleCheck size={14} /> Housekeeping accepted</span>
-              <span className="review"><Clock3 size={14} /> Front Desk review</span>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        <AnimatePresence>
-          {phase >= 3 && (
-            <motion.div
-              className="ai-reply"
-              initial={{ opacity: 0, y: 14, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <div className="mini-brand-mark"><Sparkles size={15} /></div>
-              <p>Absolutely. Housekeeping has your towel request. I’m checking late-checkout availability now.</p>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-
-      <div className="context-strip">
-        <span><small>Demo property</small>The Meridian</span>
-        <span><small>Guest</small>Maya Chen</span>
-        <span><small>Room</small>412</span>
-        <span><small>Confidence</small><i /> High</span>
-      </div>
-    </div>
-  )
-}
-
 function Hero() {
-  const ref = useRef(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
-  const contentY = useTransform(scrollYProgress, [0, 1], [0, 110])
-  const visualY = useTransform(scrollYProgress, [0, 1], [0, -50])
-  const opacity = useTransform(scrollYProgress, [0, 0.83], [1, 0.22])
-
   return (
-    <section className="hero" id="top" ref={ref}>
-      <div className="hero-atmosphere" aria-hidden="true">
-        <div className="ambient ambient-one" />
-        <div className="ambient ambient-two" />
-        <div className="hero-architecture" />
-        <div className="particle-field"><i /><i /><i /><i /><i /><i /></div>
-      </div>
-      <motion.div className="hero-shell page-shell" style={{ opacity }}>
-        <motion.div className="hero-copy" style={{ y: contentY }}>
-          <SectionLabel>AI Hospitality, in Motion</SectionLabel>
-          <h1>Every Guest Request, <em>Already in Motion.</em></h1>
-          <p className="hero-lede">ChatBlu understands what guests need, answers what it can, and turns everything else into action across your hotel.</p>
-          <div className="hero-buttons">
-            <PrimaryButton>Book a Demo</PrimaryButton>
-            <SecondaryButton href="#how-it-works">Watch ChatBlu Work</SecondaryButton>
-          </div>
-          <div className="hero-proofline">
-            <span>Questions answered.</span>
-            <span>Requests routed.</span>
-            <span>Staff informed.</span>
-            <span>Guests updated.</span>
-          </div>
-        </motion.div>
-
-        <motion.div className="hero-visual" style={{ y: visualY }}>
-          <div className="floating-chip chip-one"><Wifi size={14} /> Property-aware</div>
-          <div className="floating-chip chip-two"><Route size={14} /> Right team</div>
-          <HeroProduct />
-        </motion.div>
-      </motion.div>
-      <div className="hero-scroll-cue">
-        <span>Follow the request</span>
-        <FlowPath vertical />
-      </div>
-    </section>
-  )
-}
-
-function WorkflowSection() {
-  const stages = [
-    { number: '01', title: 'Guest message', body: '“Can I check out at 2?”', icon: MessageCircle },
-    { number: '02', title: 'Understanding', body: 'Late-checkout request', icon: BrainCircuit },
-    { number: '03', title: 'Hotel context', body: 'Policy · Occupancy · Guest profile', icon: Building2 },
-    { number: '04', title: 'Decision', body: 'Staff approval needed', icon: Route },
-    { number: '05', title: 'Answer / action', body: 'Front Desk notified · Guest updated', icon: Send },
-  ]
-
-  return (
-    <section className="section workflow-section" id="how-it-works">
-      <div className="page-shell sticky-story">
-        <div className="sticky-copy">
-          <SectionLabel>One Message. Multiple Actions.</SectionLabel>
-          <h2>ChatBlu Doesn’t Just Reply. <em>It Gets Things Moving.</em></h2>
-          <p>Behind every conversation, ChatBlu understands the guest, uses hotel context, and determines what should happen next.</p>
-          <div className="sticky-note"><i /> The Blu Flow follows intent all the way to resolution.</div>
+    <section className="hero" id="top">
+      <div className="hero-noise" aria-hidden="true" />
+      <div className="page-shell hero-layout">
+        <div className="hero-copy">
+          <motion.p
+            className="eyebrow eyebrow--ink"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55 }}
+          >
+            AI agents for hotel operations
+          </motion.p>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.82, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+          >
+            Hospitality,
+            <br />
+            handled <em>as one.</em>
+          </motion.h1>
+          <motion.p
+            className="hero-intro"
+            initial={{ opacity: 0, y: 22 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.72, delay: 0.2 }}
+          >
+            ChatBlu is one AI platform for the guest experience and the hotel operation—answering,
+            coordinating, and helping every part of the property move with more context.
+          </motion.p>
+          <motion.div
+            className="hero-actions"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, delay: 0.3 }}
+          >
+            <ArrowButton href={bookDemoUrl} external>
+              Book a demo
+            </ArrowButton>
+            <ArrowButton href="#platform" variant="text">
+              Explore the platform
+            </ArrowButton>
+          </motion.div>
         </div>
-        <div className="workflow-stack">
-          {stages.map((stage, index) => {
-            const Icon = stage.icon
-            return (
-              <Reveal key={stage.number} delay={index * 0.06} direction={index % 2 ? 'right' : 'left'}>
-                <motion.article className="workflow-stage" whileHover={{ y: -5 }}>
-                  <div className="stage-number">{stage.number}</div>
-                  <div className="stage-icon"><Icon size={20} /></div>
-                  <div><h3>{stage.title}</h3><p>{stage.body}</p></div>
-                  <span className="stage-check"><Check size={15} /></span>
-                </motion.article>
-                {index < stages.length - 1 && <FlowPath vertical className="stage-connector" />}
-              </Reveal>
-            )
-          })}
-        </div>
-      </div>
-    </section>
-  )
-}
 
-function AnswerVisual() {
-  const questions = [
-    ['What’s the Wi-Fi?', 'Connect to MeridianGuest. Your access code is on your key sleeve.'],
-    ['When does the pool close?', 'The pool is open until 10 PM tonight.'],
-    ['Can I park overnight?', 'Yes. Overnight guest parking is available.'],
-  ]
-  return (
-    <div className="capability-visual answer-visual">
-      {questions.map(([q, a], index) => (
         <motion.div
-          className="quick-answer"
-          key={q}
-          initial={{ opacity: 0, x: 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: index * 0.14 }}
+          className="hero-visual"
+          initial={{ opacity: 0, scale: 0.97, y: 24 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.95, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
         >
-          <p>{q}</p>
-          <span><Sparkles size={13} /> {a}</span>
+          <img src={`${imageBase}chatblu-hero-hotel.webp`} alt="An atmospheric hotel interior" />
+          <div className="hero-visual-shade" aria-hidden="true" />
+          <motion.div
+            className="hero-conversation"
+            animate={{ y: [0, -5, 0] }}
+            transition={{ duration: 5.8, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <div className="conversation-topline">
+              <span className="avatar">M</span>
+              <span>
+                <strong>Guest · Room 412</strong>
+                <small>WhatsApp</small>
+              </span>
+              <i className="live-dot" aria-label="Active" />
+            </div>
+            <p>Could I arrive early—and can you book dinner for two?</p>
+            <div className="understood-row">
+              <span><Check size={13} /> Arrival coordinated</span>
+              <span><Check size={13} /> Dining in motion</span>
+            </div>
+          </motion.div>
+          <div className="hero-caption">
+            <span>For the guest</span>
+            <i aria-hidden="true" />
+            <span>For the hotel</span>
+          </div>
         </motion.div>
-      ))}
-      <div className="property-aware"><i /> Property-aware response</div>
+      </div>
+      <div className="hero-footnote page-shell">
+        <span>One conversation</span>
+        <span className="footnote-line" aria-hidden="true" />
+        <span>The entire operation</span>
+      </div>
+    </section>
+  )
+}
+
+function ArrivalVisual() {
+  return (
+    <div className="tour-scene arrival-scene">
+      <div className="scene-label"><MessageCircle size={14} /> Guest conversation</div>
+      <div className="message message--guest">Our flight lands early. Could we arrive around noon?</div>
+      <div className="intent-row">
+        <span>Early arrival</span><span>Preference captured</span>
+      </div>
+      <div className="route-line"><i /><span>ChatBlu is coordinating with the property</span></div>
+      <div className="message message--blu">Of course. I’ve noted your arrival time and will keep you updated.</div>
+      <div className="scene-status"><CircleCheck size={17} /> Arrival plan prepared</div>
     </div>
   )
 }
 
-function ActVisual() {
+function DiningVisual() {
   return (
-    <div className="capability-visual action-visual">
-      <div className="action-message">“Please send a crib to room 805.”</div>
-      <FlowPath vertical />
-      <div className="request-ticket">
-        <div className="ticket-head"><span>New request</span><strong>Room 805</strong></div>
-        <div className="ticket-row"><span>Type</span><b>Service request</b></div>
-        <div className="ticket-row"><span>Team</span><b>Housekeeping</b></div>
-        <div className="ticket-row"><span>Priority</span><b>Normal</b></div>
-        <div className="ticket-status"><CircleCheck size={15} /> Housekeeping accepted</div>
+    <div className="tour-scene dining-scene">
+      <div className="scene-label"><UtensilsCrossed size={14} /> Dining request</div>
+      <div className="message message--guest">Somewhere quiet for dinner. One of us is gluten-free.</div>
+      <div className="reservation-card">
+        <div><small>Recommended</small><strong>Terrace dining</strong></div>
+        <div className="reservation-meta"><span>2 guests</span><span>7:30 PM</span><span>Gluten-free</span></div>
+        <button type="button">Confirm reservation <ChevronRight size={14} /></button>
       </div>
-      <div className="guest-update"><Check size={14} /> Your request is on the way.</div>
+      <div className="scene-status"><CircleCheck size={17} /> Guest preference remembered</div>
     </div>
   )
 }
 
-function HandoffVisual() {
+function WellnessVisual() {
   return (
-    <div className="capability-visual handoff-visual">
-      <div className="sentiment-message">“The AC still isn’t working and this is the second time I’ve called.”</div>
-      <div className="signal-row">
-        <span><AlertTriangle size={14} /> Repeated issue</span>
-        <span>Negative sentiment</span>
+    <div className="tour-scene wellness-scene">
+      <div className="scene-label"><Sparkles size={14} /> Wellness concierge</div>
+      <div className="message message--guest">Is there a relaxing treatment available tomorrow afternoon?</div>
+      <div className="treatment-card">
+        <div className="treatment-icon"><Sparkles size={19} /></div>
+        <div><small>Matched to the guest</small><strong>Restorative massage</strong><span>Tomorrow · afternoon availability</span></div>
       </div>
-      <div className="human-route">
-        <div className="human-avatar">FD</div>
-        <div><small>Route to Front Desk</small><strong>Human attention recommended</strong></div>
-        <ArrowRight size={18} />
-      </div>
-      <div className="summary-chip"><Sparkles size={14} /> Conversation summary attached</div>
+      <div className="confirmation-strip"><Check size={15} /> Details ready to confirm</div>
     </div>
   )
 }
 
-function Capabilities() {
-  const panels = [
-    { number: '01', kicker: 'ANSWER', title: 'Answers Without the Wait.', body: 'Give guests immediate answers using information specific to your property.', Visual: AnswerVisual },
-    { number: '02', kicker: 'ACT', title: 'Turn Requests Into Action.', body: 'Move routine requests toward resolution instead of leaving them inside a conversation.', Visual: ActVisual },
-    { number: '03', kicker: 'HAND OFF', title: 'Human When It Matters.', body: 'Know when automation should stop and hospitality should become personal.', Visual: HandoffVisual },
-  ]
+function RequestsVisual() {
+  return (
+    <div className="tour-scene request-scene">
+      <div className="scene-label"><BellRing size={14} /> Live guest requests</div>
+      <div className="request-row"><span className="request-icon">01</span><div><strong>Airport transport</strong><small>Coordinating</small></div><i className="status-pulse" /></div>
+      <div className="request-row"><span className="request-icon">02</span><div><strong>Extra pillows</strong><small>Housekeeping accepted</small></div><Check size={17} /></div>
+      <div className="request-row request-row--human"><span className="request-icon"><UserRoundCheck size={15} /></span><div><strong>Service recovery</strong><small>Human attention recommended</small></div><ChevronRight size={17} /></div>
+      <div className="scene-status"><CircleCheck size={17} /> Every request has a next step</div>
+    </div>
+  )
+}
+
+function AnalysisVisual() {
+  return (
+    <div className="tour-scene analysis-scene">
+      <div className="scene-label"><BarChart3 size={14} /> Ask ChatBlu</div>
+      <div className="analysis-question">What changed in food &amp; beverage performance this month?</div>
+      <div className="thinking-line"><span /><span /><span /> Looking across the P&amp;L</div>
+      <div className="analysis-answer">
+        <small>Plain-English summary</small>
+        <strong>The movement is concentrated in two operating areas.</strong>
+        <p>Review the departmental comparison and the dates where the variance first appeared.</p>
+      </div>
+      <div className="context-chips"><span>Department comparison</span><span>Anomaly surfaced</span></div>
+    </div>
+  )
+}
+
+function PropertyVisual() {
+  return (
+    <div className="tour-scene property-scene">
+      <div className="scene-label"><Building2 size={14} /> Live property view</div>
+      <div className="property-heading"><div><small>Performance context</small><strong>Today, with the why attached.</strong></div><span>Live view</span></div>
+      <div className="metric-grid">
+        {['Occupancy', 'ADR', 'RevPAR', 'Pickup'].map((metric, index) => (
+          <div className="metric-tile" key={metric}><span>{metric}</span><i style={{ '--fill': `${58 + index * 9}%` }} /></div>
+        ))}
+      </div>
+      <div className="property-note"><LineChart size={17} /><span><strong>Pace in context</strong>Compare dates, cancellations, and property movement together.</span></div>
+    </div>
+  )
+}
+
+function BriefingVisual() {
+  return (
+    <div className="tour-scene briefing-scene">
+      <div className="briefing-head"><div className="sun-icon"><SunMedium size={18} /></div><div><small>Morning briefing</small><strong>What needs your attention today</strong></div><span>Ready</span></div>
+      <div className="briefing-list">
+        {[
+          ['Arrivals & VIPs', 'Prepared for review'],
+          ['Unresolved requests', 'Follow-up highlighted'],
+          ['Staffing pressure', 'Operating context included'],
+          ['Revenue movement', 'Change explained'],
+        ].map(([label, state], index) => (
+          <div key={label}><span className="briefing-number">0{index + 1}</span><strong>{label}</strong><small>{state}</small><ChevronRight size={15} /></div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function WorkflowVisual() {
+  return (
+    <div className="tour-scene workflow-scene">
+      <div className="scene-label"><Workflow size={14} /> Cross-department workflow</div>
+      <div className="workflow-origin"><MessageCircle size={17} /><span><small>Guest intent</small><strong>Request understood with context</strong></span></div>
+      <div className="workflow-path" aria-hidden="true"><i /><i /><i /></div>
+      <div className="workflow-teams">
+        <span>Housekeeping</span><span>Finance</span><span>HR</span><span>Operations</span>
+      </div>
+      <div className="workflow-close"><CircleCheck size={18} /><span><strong>Outcome recorded</strong><small>Work closed with the result attached</small></span></div>
+    </div>
+  )
+}
+
+function TourVisual({ view }) {
+  const visualMap = {
+    arrival: ArrivalVisual,
+    dining: DiningVisual,
+    wellness: WellnessVisual,
+    requests: RequestsVisual,
+    analysis: AnalysisVisual,
+    property: PropertyVisual,
+    briefing: BriefingVisual,
+    workflow: WorkflowVisual,
+  }
+  const Visual = visualMap[view]
 
   return (
-    <section className="section capabilities-section" id="product">
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={view}
+        className="tour-visual-content"
+        initial={{ opacity: 0, y: 14, scale: 0.985 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: -10, scale: 0.99 }}
+        transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <Visual />
+      </motion.div>
+    </AnimatePresence>
+  )
+}
+
+function ProductTour() {
+  const [side, setSide] = useState('guest')
+  const [activeIndex, setActiveIndex] = useState(0)
+  const operations = side === 'guest' ? guestOperations : hotelOperations
+  const active = operations[activeIndex]
+
+  const selectSide = (nextSide) => {
+    setSide(nextSide)
+    setActiveIndex(0)
+  }
+
+  return (
+    <section className="platform-section" id="platform">
+      <div className="platform-orbit platform-orbit--one" aria-hidden="true" />
+      <div className="platform-orbit platform-orbit--two" aria-hidden="true" />
       <div className="page-shell">
-        <Reveal className="section-heading split-heading">
-          <div><SectionLabel>Three Modes of Service</SectionLabel><h2>Answer. Act. <em>Know when to step aside.</em></h2></div>
-          <p>One intelligence layer adapts to the moment—fast when the answer is clear, operational when work is required, human when judgment matters.</p>
+        <Reveal className="platform-intro">
+          <p className="eyebrow">One platform · The entire operation</p>
+          <h2>Two sides of<br /><em>the same house.</em></h2>
+          <p className="platform-summary">
+            ChatBlu takes care of the guest experience up front and gives hotel teams the analysis,
+            coordination, and answers they need behind the scenes.
+          </p>
         </Reveal>
-        <div className="capabilities-list">
-          {panels.map(({ number, kicker, title, body, Visual }, index) => (
-            <Reveal key={number} delay={0.05 * index}>
-              <article className={`capability-panel panel-${index + 1}`}>
-                <div className="capability-copy">
-                  <span className="capability-number">{number}</span>
-                  <span className="capability-kicker">{kicker}</span>
-                  <h3>{title}</h3>
-                  <p>{body}</p>
-                </div>
-                <Visual />
-              </article>
-            </Reveal>
-          ))}
+
+        <div className="intelligence-bridge" aria-label="Shared guest and property intelligence">
+          <span aria-hidden="true" />
+          <p><Sparkles size={15} /> Shared guest and property intelligence</p>
+          <span aria-hidden="true" />
         </div>
-      </div>
-    </section>
-  )
-}
 
-function GuestJourney() {
-  const [active, setActive] = useState(0)
-  const stage = journeyStages[active]
-
-  return (
-    <section className="section journey-section" id="guest-experience">
-      <div className="page-shell">
-        <Reveal className="section-heading centered-heading">
-          <SectionLabel>The Guest Journey</SectionLabel>
-          <h2>One Intelligence Layer <em>Across the Stay.</em></h2>
-          <p>From the first arrival question to the final checkout request, context travels with the conversation.</p>
-        </Reveal>
-
-        <Reveal className="journey-experience">
-          <div className="journey-tabs" role="tablist" aria-label="Guest journey stages">
-            <span className="journey-progress" style={{ '--progress': `${(active / (journeyStages.length - 1)) * 100}%` }} />
-            {journeyStages.map((item, index) => (
-              <button
-                key={item.label}
-                type="button"
-                className={active === index ? 'is-active' : ''}
-                onClick={() => setActive(index)}
-                role="tab"
-                aria-selected={active === index}
-              >
-                <i><Check size={12} /></i>
-                <span>{item.label}</span>
-              </button>
-            ))}
-          </div>
-          <div className="journey-content">
-            <AnimatePresence mode="wait">
-              <motion.div
-                className="journey-phone"
-                key={`phone-${active}`}
-                initial={{ opacity: 0, x: -22 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 16 }}
-                transition={{ duration: 0.35 }}
-              >
-                <div className="phone-top"><span>ChatBlu</span><small>{stage.time}</small></div>
-                <div className="phone-day">Today</div>
-                <div className="phone-message guest">{stage.guest}</div>
-                <div className="phone-thinking"><i /><i /><i /></div>
-                <div className="phone-message blu">{stage.reply}</div>
-              </motion.div>
-            </AnimatePresence>
-            <AnimatePresence mode="wait">
-              <motion.div
-                className="journey-context"
-                key={`context-${active}`}
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-              >
-                <SectionLabel>{stage.label}</SectionLabel>
-                <h3>{stage.intent}</h3>
-                <div className="context-steps">
-                  <div><span>01</span><p>Guest intent understood</p><Check size={15} /></div>
-                  <div><span>02</span><p>{stage.action}</p><Check size={15} /></div>
-                  <div><span>03</span><p>Guest receives a clear update</p><Check size={15} /></div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </Reveal>
-      </div>
-    </section>
-  )
-}
-
-const dashboardRequests = [
-  { room: '412', request: 'Extra towels', team: 'Housekeeping', status: 'In progress', tone: 'blue', icon: BedDouble },
-  { room: '628', request: 'AC issue', team: 'Maintenance', status: 'Priority', tone: 'red', icon: Wrench },
-  { room: '301', request: 'Late checkout', team: 'Front Desk', status: 'Approval', tone: 'amber', icon: Clock3 },
-  { room: '827', request: 'Breakfast hours', team: 'AI answered', status: 'Resolved', tone: 'green', icon: Utensils },
-]
-
-function OperationsDashboard() {
-  return (
-    <section className="section operations-section" id="hotel-operations">
-      <div className="page-shell">
-        <Reveal className="section-heading split-heading">
-          <div><SectionLabel>The Hotel Team Experience</SectionLabel><h2>Your Team Sees What Matters. <em>Not More Noise.</em></h2></div>
-          <p>Guest intent arrives as organized work—with the room, request, team, context, and current status already clear.</p>
-        </Reveal>
-
-        <Reveal className="dashboard-wrap">
-          <div className="dashboard-glow" />
-          <div className="dashboard">
-            <aside className="dashboard-sidebar">
-              <Logo compact />
-              <nav>
-                <a className="active" href="#hotel-operations"><Inbox size={17} /><span>Inbox</span><b>4</b></a>
-                <a href="#hotel-operations"><ListChecks size={17} /><span>Guest Requests</span></a>
-                <a href="#hotel-operations"><BellRing size={17} /><span>Teams</span></a>
-                <a href="#hotel-operations"><BrainCircuit size={17} /><span>Insights</span></a>
-                <a href="#hotel-operations"><BookOpen size={17} /><span>Property Knowledge</span></a>
-              </nav>
-              <div className="property-switcher"><Building2 size={17} /><span><small>Demo property</small>The Meridian</span><ChevronDown size={15} /></div>
-            </aside>
-            <main className="dashboard-main">
-              <div className="dashboard-header">
-                <div><span className="eyebrow">OPERATIONS</span><h3>Live Guest Operations</h3></div>
-                <div className="dashboard-health"><i /> All teams available</div>
-              </div>
-              <div className="dashboard-filter-row">
-                <div className="filter-tabs"><button className="active" type="button">All requests <span>4</span></button><button type="button">Needs attention <span>2</span></button><button type="button">Resolved</button></div>
-                <div className="dashboard-date">Today · Live</div>
-              </div>
-              <div className="request-list">
-                <div className="request-list-head"><span>Guest / Room</span><span>Request</span><span>Team</span><span>Status</span><span /></div>
-                {dashboardRequests.map((request, index) => {
-                  const Icon = request.icon
-                  return (
-                    <motion.div
-                      className="request-row"
-                      key={request.room}
-                      initial={{ opacity: 0, x: 24 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
-                    >
-                      <span className="room-cell"><b>{request.room}</b><small>In-house guest</small></span>
-                      <span className="request-cell"><i><Icon size={16} /></i><b>{request.request}</b></span>
-                      <span>{request.team}</span>
-                      <span><em className={`status-pill ${request.tone}`}><i />{request.status}</em></span>
-                      <span><ArrowRight size={17} /></span>
-                    </motion.div>
-                  )
-                })}
-              </div>
-              <div className="dashboard-footer"><span><i /> Live sync</span><span>Guest context stays attached to every request.</span></div>
-            </main>
-          </div>
-        </Reveal>
-      </div>
-    </section>
-  )
-}
-
-function RoutingSection() {
-  const nodes = [
-    { label: 'Guest', icon: MessageCircle, className: 'node-guest' },
-    { label: 'Front Desk', icon: BellRing, className: 'node-front' },
-    { label: 'Housekeeping', icon: BedDouble, className: 'node-housekeeping' },
-    { label: 'Maintenance', icon: Wrench, className: 'node-maintenance' },
-    { label: 'Guest Services', icon: Headphones, className: 'node-services' },
-    { label: 'Property Info', icon: BookOpen, className: 'node-property' },
-  ]
-
-  return (
-    <section className="section routing-section">
-      <div className="page-shell routing-layout">
-        <Reveal className="routing-copy" direction="left">
-          <SectionLabel>Intelligent Routing</SectionLabel>
-          <h2>One Request. <em>The Right Team.</em></h2>
-          <p>ChatBlu reads beyond the words—finding urgency, department, room context, and who else needs visibility.</p>
-          <div className="routing-example">
-            <div className="routing-quote">“Water is leaking from the bathroom.”</div>
-            <ul>
-              <li><Check size={14} /> Urgent maintenance intent</li>
-              <li><Check size={14} /> Maintenance receives the request</li>
-              <li><Check size={14} /> Front Desk gains visibility</li>
-              <li><Check size={14} /> Guest receives an update</li>
-            </ul>
-          </div>
-        </Reveal>
-        <Reveal className="routing-network" direction="right">
-          <svg className="network-lines" viewBox="0 0 620 620" aria-hidden="true">
-            <defs>
-              <linearGradient id="lineGlow" x1="0" y1="0" x2="1" y2="1">
-                <stop stopColor="#2e71ff" stopOpacity=".08" />
-                <stop offset=".5" stopColor="#79b9ff" stopOpacity=".8" />
-                <stop offset="1" stopColor="#2e71ff" stopOpacity=".08" />
-              </linearGradient>
-            </defs>
-            <path d="M310 310 L86 155" />
-            <path d="M310 310 L310 70" />
-            <path d="M310 310 L540 160" />
-            <path d="M310 310 L550 430" />
-            <path d="M310 310 L310 550" />
-            <path d="M310 310 L75 440" />
-            <circle className="route-dot route-dot-1" r="5"><animateMotion dur="3.2s" repeatCount="indefinite" path="M86 155 L310 310 L550 430" /></circle>
-            <circle className="route-dot route-dot-2" r="4"><animateMotion dur="4s" repeatCount="indefinite" path="M310 550 L310 310 L540 160" /></circle>
-          </svg>
-          <div className="network-core">
-            <span><BrainCircuit size={28} /></span>
-            <strong>ChatBlu</strong>
-            <small>Intent engine</small>
-            <i />
-          </div>
-          {nodes.map(({ label, icon: Icon, className }) => (
-            <motion.div className={`network-node ${className}`} key={label} whileHover={{ scale: 1.05 }}>
-              <span><Icon size={18} /></span><b>{label}</b>
-            </motion.div>
-          ))}
-          <div className="network-signal"><span>Urgent</span> Maintenance request</div>
-        </Reveal>
-      </div>
-    </section>
-  )
-}
-
-function ValueSection() {
-  const values = [
-    { number: '01', title: 'Faster Guest Responses', body: 'Give guests access to routine answers without waiting for staff availability.', icon: MessageCircle },
-    { number: '02', title: 'Fewer Repetitive Questions', body: 'Let ChatBlu handle common information requests throughout the day.', icon: Sparkles },
-    { number: '03', title: 'Cleaner Staff Workflows', body: 'Turn guest intent into organized operational action.', icon: Route },
-    { number: '04', title: 'More Human Attention', body: 'Give teams more time for complex and memorable guest moments.', icon: Headphones },
-  ]
-
-  return (
-    <section className="section value-section">
-      <div className="page-shell">
-        <Reveal className="section-heading centered-heading">
-          <SectionLabel>Hotel Value</SectionLabel>
-          <h2>Less Repetition. <em>More Hospitality.</em></h2>
-        </Reveal>
-        <div className="value-cards">
-          {values.map(({ number, title, body, icon: Icon }, index) => (
-            <Reveal key={number} delay={index * 0.06} className={`value-card-wrap card-${index + 1}`}>
-              <motion.article className="value-card" whileHover={{ y: -7, scale: 1.012 }}>
-                <div className="value-card-top"><span>{number}</span><i><Icon size={21} /></i></div>
-                <h3>{title}</h3>
-                <p>{body}</p>
-                <div className="mini-motion">
-                  <span /><span /><span />
-                  <i><Check size={11} /></i>
-                </div>
-              </motion.article>
-            </Reveal>
-          ))}
+        <div className="tour-switcher" role="tablist" aria-label="Choose an operation view">
+          <button
+            type="button"
+            role="tab"
+            aria-selected={side === 'guest'}
+            className={side === 'guest' ? 'is-active' : ''}
+            onClick={() => selectSide('guest')}
+          >
+            <span>Guest operations</span>
+            <strong>Front of house</strong>
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={side === 'hotel'}
+            className={side === 'hotel' ? 'is-active' : ''}
+            onClick={() => selectSide('hotel')}
+          >
+            <span>Hotel operations</span>
+            <strong>Back of house</strong>
+          </button>
         </div>
-      </div>
-    </section>
-  )
-}
 
-function BridgeSection() {
-  return (
-    <section className="section bridge-section">
-      <div className="page-shell">
-        <Reveal className="section-heading centered-heading">
-          <SectionLabel>Shared Value</SectionLabel>
-          <h2>Better for Guests. <em>Lighter for Teams.</em></h2>
-        </Reveal>
-        <Reveal className="bridge-visual">
-          <div className="bridge-side guest-side">
-            <span className="bridge-eyebrow">FOR GUESTS</span>
-            <h3>A stay that feels effortless.</h3>
-            <ul><li><Check /> Faster answers</li><li><Check /> Less waiting</li><li><Check /> Simpler requests</li><li><Check /> Clear updates</li></ul>
-            <div className="bridge-message">Could we get two bottles of water?</div>
-          </div>
-          <div className="bridge-center">
-            <div className="bridge-core"><Logo compact /><strong>ChatBlu</strong><small>understands</small></div>
-            <div className="bridge-flow"><span /><i /><span /></div>
-            <div className="bridge-intent"><BedDouble size={14} /> Guest amenity request</div>
-          </div>
-          <div className="bridge-side team-side">
-            <span className="bridge-eyebrow">FOR HOTEL TEAMS</span>
-            <h3>Work that arrives organized.</h3>
-            <ul><li><Check /> Less repetitive work</li><li><Check /> Clearer requests</li><li><Check /> Smarter routing</li><li><Check /> More visibility</li></ul>
-            <div className="bridge-ticket"><span>Room 412 · Water</span><b><i /> Assigned</b></div>
-          </div>
-        </Reveal>
-      </div>
-    </section>
-  )
-}
-
-function WhyChatBlu() {
-  const features = [
-    { title: 'Property-Aware', body: 'Understands your hotel’s information, policies, services, and operating context.', icon: Building2, className: 'why-one' },
-    { title: 'Action-Oriented', body: 'Moves beyond conversation by turning guest intent into operational workflows.', icon: Route, className: 'why-two' },
-    { title: 'Hospitality-Specific', body: 'Designed around the situations hotel teams handle every day.', icon: BellRing, className: 'why-three' },
-    { title: 'Human-Aware', body: 'Recognizes when a conversation needs judgment, empathy, or personal attention.', icon: Headphones, className: 'why-four' },
-  ]
-
-  return (
-    <section className="section why-section" id="why-chatblu">
-      <div className="page-shell">
-        <Reveal className="section-heading centered-heading">
-          <SectionLabel>Why ChatBlu</SectionLabel>
-          <h2>Not Another <em>Hotel Chatbot.</em></h2>
-          <p>Generic chat ends with a reply. ChatBlu is designed to understand what the hotel needs to do next.</p>
-        </Reveal>
-        <div className="why-orbit">
-          <div className="orbit-ring ring-one" /><div className="orbit-ring ring-two" />
-          <div className="why-core"><span><BrainCircuit size={34} /></span><strong>Hospitality<br />intelligence</strong><small>Conversation → Action</small></div>
-          {features.map(({ title, body, icon: Icon, className }, index) => (
-            <Reveal className={`why-card ${className}`} key={title} delay={index * 0.08}>
-              <div className="why-card-icon"><Icon size={21} /></div>
-              <h3>{title}</h3><p>{body}</p>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function IntelligenceLayers() {
-  const layers = [
-    { number: '01', name: 'Guest Channels', detail: 'The conversation begins', icon: MessageCircle },
-    { number: '02', name: 'ChatBlu Understanding', detail: 'Intent, sentiment, urgency', icon: BrainCircuit },
-    { number: '03', name: 'Property Knowledge', detail: 'Hotel-specific context', icon: BookOpen },
-    { number: '04', name: 'Decision + Workflow', detail: 'Answer, act, or hand off', icon: Route },
-    { number: '05', name: 'Hotel Teams', detail: 'The right team gets context', icon: BellRing },
-    { number: '06', name: 'Guest Resolution', detail: 'A clear update returns', icon: CircleCheck },
-  ]
-
-  return (
-    <section className="section intelligence-section">
-      <div className="page-shell intelligence-layout">
-        <Reveal className="intelligence-copy" direction="left">
-          <SectionLabel>Under the Conversation</SectionLabel>
-          <h2>Hospitality Intelligence, <em>Working in the Background.</em></h2>
-          <p>Each layer adds the context needed to move a guest from question to resolution—without exposing complexity to the guest.</p>
-          <div className="intelligence-callout"><Sparkles size={16} /><span><b>One connected thought:</b> understand the guest, understand the property, then choose the next best move.</span></div>
-        </Reveal>
-        <div className="layer-stack">
-          {layers.map(({ number, name, detail, icon: Icon }, index) => (
-            <Reveal key={number} delay={index * 0.06} direction="right">
-              <motion.div className={`intelligence-layer layer-${index + 1}`} whileHover={{ x: -8 }}>
-                <span className="layer-number">{number}</span>
-                <span className="layer-icon"><Icon size={19} /></span>
-                <div><strong>{name}</strong><small>{detail}</small></div>
-                <i className="layer-light" />
-              </motion.div>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function UseCaseExplorer() {
-  const caseNames = useMemo(() => Object.keys(useCases), [])
-  const [active, setActive] = useState(caseNames[0])
-  const current = useCases[active]
-  const ActiveIcon = current.icon
-
-  return (
-    <section className="section cases-section">
-      <div className="page-shell">
-        <Reveal className="section-heading split-heading">
-          <div><SectionLabel>Use Case Explorer</SectionLabel><h2>See the Flow <em>for Every Kind of Stay.</em></h2></div>
-          <p>Select a hospitality moment to see how guest language becomes understanding, action, and a clear outcome.</p>
-        </Reveal>
-        <Reveal className="case-explorer">
-          <div className="case-tabs" role="tablist" aria-label="ChatBlu use cases">
-            {caseNames.map((name) => {
-              const Icon = useCases[name].icon
+        <div className="tour-layout">
+          <div className="tour-list" role="tabpanel">
+            {operations.map((item, index) => {
+              const Icon = item.icon
+              const isActive = index === activeIndex
               return (
-                <button key={name} type="button" role="tab" aria-selected={active === name} className={active === name ? 'active' : ''} onClick={() => setActive(name)}>
-                  <Icon size={17} /><span>{name}</span><ArrowRight size={15} />
-                </button>
+                <motion.button
+                  type="button"
+                  className={`tour-item ${isActive ? 'is-active' : ''}`}
+                  key={`${side}-${item.number}`}
+                  onClick={() => setActiveIndex(index)}
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.055 }}
+                  aria-pressed={isActive}
+                >
+                  <span className="tour-number">{item.number}</span>
+                  <span className="tour-copy">
+                    <small>{item.moment}</small>
+                    <strong>{item.title}</strong>
+                    <span>{item.description}</span>
+                  </span>
+                  <span className="tour-icon"><Icon size={18} /></span>
+                </motion.button>
               )
             })}
           </div>
-          <div className="case-stage">
-            <AnimatePresence mode="wait">
-              <motion.div key={active} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }}>
-                <div className="case-stage-head"><span><ActiveIcon size={18} /></span><div><small>ACTIVE FLOW</small><strong>{active}</strong></div><em><i /> Live example</em></div>
-                <div className="case-conversation">
-                  <div className="case-guest"><span>Guest · Room 516</span><p>{current.guest}</p></div>
-                  <div className="case-flow-line"><i /><span>ChatBlu</span><i /></div>
-                  <div className="case-analysis">
-                    <div><small>UNDERSTANDING</small><p>{current.understanding}</p></div>
-                    <div><small>NEXT ACTION</small><p>{current.action}</p></div>
-                    <div className="case-team"><Check size={14} />{current.team}</div>
-                  </div>
-                  <div className="case-outcome"><Sparkles size={16} /><p>{current.outcome}</p><span>Guest updated <Check size={13} /></span></div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
+
+          <div className="tour-visual" aria-live="polite">
+            <div className="tour-visual-topbar">
+              <span><i /> Interactive product tour</span>
+              <span>{side === 'guest' ? 'Guest experience' : 'Hotel intelligence'}</span>
+            </div>
+            <TourVisual view={active.view} />
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function WatchDemo() {
+  return (
+    <section className="demo-section" id="watch-demo">
+      <div className="page-shell">
+        <div className="demo-heading">
+          <Reveal>
+            <p className="eyebrow eyebrow--ink">Watch the demo · 1:28</p>
+            <h2>See ChatBlu<br /><em>in the hotel.</em></h2>
+          </Reveal>
+          <Reveal delay={0.1} direction="left">
+            <p>
+              A short product walkthrough of how ChatBlu brings guest conversations and hotel
+              operations into one connected experience.
+            </p>
+            <a href="https://www.youtube.com/watch?v=7s8_2Ngwr7o" target="_blank" rel="noreferrer">
+              Open on YouTube <ArrowRight size={15} />
+            </a>
+          </Reveal>
+        </div>
+
+        <Reveal className="demo-frame-wrap">
+          <div className="demo-frame-topbar">
+            <span><i /> ChatBlu Demo</span>
+            <span>Product walkthrough</span>
+          </div>
+          <div className="demo-frame">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/7s8_2Ngwr7o?rel=0&modestbranding=1"
+              title="ChatBlu Demo"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            />
           </div>
         </Reveal>
       </div>
@@ -1029,29 +676,109 @@ function UseCaseExplorer() {
 }
 
 function WhoItsFor() {
-  const audiences = [
-    { title: 'Independent Hotels', body: 'Deliver responsive service without turning every guest question into front-desk work.', image: `${imageBase}chatblu-hero-hotel.webp` },
-    { title: 'Luxury & Lifestyle Hotels', body: 'Use automation without losing the high-touch experience your brand depends on.', image: `${imageBase}chatblu-human-hospitality.webp` },
-    { title: 'Hotel Groups', body: 'Create more consistent guest communication and workflows across properties.', image: `${imageBase}chatblu-hero-hotel.webp` },
-    { title: 'Guest Experience Teams', body: 'Understand what guests need and move requests toward resolution faster.', image: `${imageBase}chatblu-human-hospitality.webp` },
-  ]
-
   return (
-    <section className="section audience-section">
+    <section className="audience-section" id="for-hotels">
       <div className="page-shell">
-        <Reveal className="section-heading centered-heading">
-          <SectionLabel>Who It’s For</SectionLabel>
-          <h2>Built for Hotels That Want <em>Service to Move Faster.</em></h2>
-        </Reveal>
+        <div className="audience-heading">
+          <Reveal>
+            <p className="eyebrow eyebrow--ink">Who it is for</p>
+            <h2>Built for the people<br />carrying <em>the stay.</em></h2>
+          </Reveal>
+          <Reveal delay={0.1} direction="left">
+            <p>
+              For hotels where guest expectations, property performance, and daily operations all
+              move at once—and every team needs the same picture.
+            </p>
+          </Reveal>
+        </div>
+
         <div className="audience-grid">
-          {audiences.map((audience, index) => (
-            <Reveal className={`audience-card card-${index + 1}`} key={audience.title} delay={index * 0.06}>
-              <motion.article whileHover={{ y: -6 }}>
-                <img src={audience.image} alt="" loading="lazy" />
-                <div className="audience-overlay" />
-                <span>0{index + 1}</span>
-                <div><h3>{audience.title}</h3><p>{audience.body}</p><i><ArrowRight size={18} /></i></div>
-              </motion.article>
+          {audiences.map((audience, index) => {
+            const Icon = audience.icon
+            return (
+              <Reveal key={audience.label} delay={index * 0.09} className="audience-card">
+                <span className="audience-index">0{index + 1}</span>
+                <div className="audience-icon"><Icon size={21} /></div>
+                <p className="audience-label">{audience.label}</p>
+                <h3>{audience.title}</h3>
+                <p>{audience.copy}</p>
+              </Reveal>
+            )
+          })}
+        </div>
+
+        <Reveal className="audience-image-wrap">
+          <img src={`${imageBase}chatblu-human-hospitality.webp`} alt="A hotel team member welcoming a guest" />
+          <div className="audience-image-copy">
+            <p>Technology should make the hotel feel more attentive—not less human.</p>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  )
+}
+
+function Value() {
+  return (
+    <section className="value-section" id="value">
+      <div className="page-shell">
+        <Reveal className="value-heading">
+          <p className="eyebrow">The value</p>
+          <h2>Better stays.<br /><em>Calmer operations.</em></h2>
+        </Reveal>
+
+        <div className="value-pair">
+          <Reveal className="value-panel value-panel--guest" direction="right">
+            <div className="value-panel-top"><MessageCircle size={20} /><span>For hotel guests</span></div>
+            <h3>Less waiting.<br />More being looked after.</h3>
+            <p>Guests get clear answers, smoother coordination, and thoughtful continuity from before arrival through the stay.</p>
+            <ul>
+              <li><Check size={15} /> Questions answered in the moment</li>
+              <li><Check size={15} /> Preferences carried forward</li>
+              <li><Check size={15} /> Requests followed through</li>
+            </ul>
+          </Reveal>
+
+          <div className="value-connector" aria-hidden="true">
+            <span>ChatBlu</span>
+            <i />
+          </div>
+
+          <Reveal className="value-panel value-panel--hotel" direction="left" delay={0.1}>
+            <div className="value-panel-top"><BriefcaseBusiness size={20} /><span>For hotel teams</span></div>
+            <h3>Less chasing.<br />More clarity.</h3>
+            <p>Teams receive useful context, organized work, and a more direct view of what the property needs next.</p>
+            <ul>
+              <li><Check size={15} /> Repetitive work reduced</li>
+              <li><Check size={15} /> Requests routed with context</li>
+              <li><Check size={15} /> Decisions easier to understand</li>
+            </ul>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function WhyChatBlu() {
+  return (
+    <section className="why-section" id="why-chatblu">
+      <div className="page-shell why-layout">
+        <Reveal className="why-heading">
+          <p className="eyebrow eyebrow--ink">Why ChatBlu is different</p>
+          <h2>Not a chatbot<br />at the edge of <em>the hotel.</em></h2>
+          <p>
+            ChatBlu connects the conversation a guest has with the context and coordination the hotel
+            needs behind it.
+          </p>
+        </Reveal>
+
+        <div className="difference-list">
+          {differences.map((item, index) => (
+            <Reveal className="difference-row" key={item.number} delay={index * 0.08} direction="left">
+              <span>{item.number}</span>
+              <div><h3>{item.title}</h3><p>{item.copy}</p></div>
+              <div className="difference-arrow"><ArrowRight size={19} /></div>
             </Reveal>
           ))}
         </div>
@@ -1060,79 +787,29 @@ function WhoItsFor() {
   )
 }
 
-function HumanHospitality() {
+function FinalCta() {
   return (
-    <section className="human-section">
-      <div className="human-image" aria-hidden="true" />
-      <div className="human-ui ui-one"><span><Check size={13} /> Request handled</span></div>
-      <div className="human-ui ui-two"><span>Guest updated</span><i /></div>
-      <Reveal className="human-copy">
-        <SectionLabel>Human Hospitality</SectionLabel>
-        <h2>The Best Part of Hospitality <em>Should Still Be Human.</em></h2>
-        <p>ChatBlu handles the predictable moments so your team has more time for the unforgettable ones.</p>
-      </Reveal>
-    </section>
-  )
-}
-
-function FAQ() {
-  const [open, setOpen] = useState(0)
-  return (
-    <section className="section faq-section">
-      <div className="page-shell faq-layout">
-        <Reveal className="faq-heading" direction="left">
-          <SectionLabel>FAQ</SectionLabel>
-          <h2>The Practical <em>Questions.</em></h2>
-          <p>Clear answers about what ChatBlu is designed to do—and where a property conversation begins.</p>
-          <PrimaryButton>Talk to ChatBlu</PrimaryButton>
+    <section className="final-cta" id="demo">
+      <div className="cta-glow" aria-hidden="true" />
+      <div className="page-shell cta-layout">
+        <Reveal className="cta-copy">
+          <p className="eyebrow">The next step</p>
+          <h2>See both sides<br />working <em>as one.</em></h2>
+          <p>
+            Explore how ChatBlu can support the guest experience up front and give hotel teams more
+            clarity behind the scenes.
+          </p>
+          <ArrowButton href={bookDemoUrl} external variant="light">
+            Book a demo
+          </ArrowButton>
         </Reveal>
-        <div className="faq-list">
-          {faqs.map((item, index) => {
-            const isOpen = open === index
-            return (
-              <Reveal key={item.q} delay={index * 0.04}>
-                <div className={`faq-item${isOpen ? ' is-open' : ''}`}>
-                  <button type="button" aria-expanded={isOpen} onClick={() => setOpen(isOpen ? -1 : index)}>
-                    <span><i>0{index + 1}</i>{item.q}</span><ChevronDown size={21} />
-                  </button>
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div className="faq-answer" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }}>
-                        <p>{item.a}</p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              </Reveal>
-            )
-          })}
-        </div>
-      </div>
-    </section>
-  )
-}
 
-function FinalCTA() {
-  return (
-    <section className="final-section" id="contact">
-      <div className="final-atmosphere" aria-hidden="true"><i /><i /><i /></div>
-      <div className="page-shell final-shell">
-        <Reveal className="final-flow">
-          <div className="final-message"><span>Guest · Room 704</span><p>“Could we get breakfast sent up tomorrow at 8?”</p></div>
-          <FlowPath />
-          <div className="final-core"><Logo compact /><span>ChatBlu</span><i /></div>
-          <FlowPath />
-          <div className="final-resolution">
-            <span><Check /> Request understood</span>
-            <span><Check /> Hotel workflow ready</span>
-            <span><Check /> Guest updated</span>
+        <Reveal className="cta-note" direction="left" delay={0.12}>
+          <div className="cta-note-top"><span className="avatar">C</span><div><strong>ChatBlu</strong><small>One platform · The entire operation</small></div></div>
+          <p>From the guest’s first question to the team’s next decision, keep the whole hotel moving with shared context.</p>
+          <div className="cta-flow">
+            <span>Guest</span><i /><span>ChatBlu</span><i /><span>Hotel</span>
           </div>
-        </Reveal>
-        <Reveal className="final-copy" delay={0.12}>
-          <SectionLabel>The Next Request Is Coming</SectionLabel>
-          <h2>Turn Every Guest Request <em>Into Forward Motion.</em></h2>
-          <p>See how ChatBlu can help your hotel respond faster, reduce repetitive communication, and keep hospitality moving.</p>
-          <div className="final-buttons"><PrimaryButton dark>Book a Demo</PrimaryButton><SecondaryButton href="#product">Explore the Product</SecondaryButton></div>
         </Reveal>
       </div>
     </section>
@@ -1142,15 +819,16 @@ function FinalCTA() {
 function Footer() {
   return (
     <footer className="site-footer">
-      <div className="page-shell">
-        <div className="footer-top">
-          <div><Logo /><p>Intelligence behind every stay.</p></div>
-          <nav aria-label="Footer navigation">
-            <div><span>Explore</span><a href="#product">Product</a><a href="#guest-experience">Guest Experience</a><a href="#hotel-operations">Hotel Operations</a></div>
-            <div><span>Learn</span><a href="#how-it-works">How It Works</a><a href="#why-chatblu">Why ChatBlu</a><a href={officialSite} target="_blank" rel="noreferrer">Contact</a></div>
-          </nav>
+      <div className="page-shell footer-grid">
+        <div className="footer-brand"><Brand footer /><p>One intelligence layer for the entire hotel operation.</p></div>
+        <nav aria-label="Footer navigation">
+          {navItems.map(([label, href]) => <a href={href} key={href}>{label}</a>)}
+          <a href={bookDemoUrl} target="_blank" rel="noreferrer">Book a demo</a>
+        </nav>
+        <div className="footer-meta">
+          <p>Intelligence behind every stay.</p>
+          <span>© {new Date().getFullYear()} ChatBlu</span>
         </div>
-        <div className="footer-bottom"><span>© {new Date().getFullYear()} ChatBlu</span><div><a href="https://app.chatblu.ai/privacy" target="_blank" rel="noreferrer">Privacy</a><a href="https://app.chatblu.ai/terms" target="_blank" rel="noreferrer">Terms</a></div><span>Guest asks. ChatBlu understands. The hotel moves.</span></div>
       </div>
     </footer>
   )
@@ -1160,23 +838,15 @@ export default function App() {
   return (
     <>
       <SmoothScroll />
-      <Navigation />
+      <Header />
       <main>
         <Hero />
-        <WorkflowSection />
-        <Capabilities />
-        <GuestJourney />
-        <OperationsDashboard />
-        <RoutingSection />
-        <ValueSection />
-        <BridgeSection />
-        <WhyChatBlu />
-        <IntelligenceLayers />
-        <UseCaseExplorer />
+        <ProductTour />
+        <WatchDemo />
         <WhoItsFor />
-        <HumanHospitality />
-        <FAQ />
-        <FinalCTA />
+        <Value />
+        <WhyChatBlu />
+        <FinalCta />
       </main>
       <Footer />
     </>

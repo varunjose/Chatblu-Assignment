@@ -1,6 +1,6 @@
-# ChatBlu — Hospitality in Motion
+# ChatBlu — One Platform. The Entire Operation.
 
-A complete product-first reimagining of the ChatBlu landing page. The experience follows one central idea: a guest asks, ChatBlu understands, and the hotel moves.
+A focused landing page for ChatBlu, presenting one AI platform across the guest experience and hotel operations.
 
 ## Live site
 
@@ -8,11 +8,11 @@ A complete product-first reimagining of the ChatBlu landing page. The experience
 
 ## Experience highlights
 
-- Live hero conversation that separates, interprets, and routes multiple guest intents
-- The Blu Flow visual language across guest, intelligence, team, and resolution states
-- Scroll-led product story, interactive guest journey, routing network, and operations dashboard
-- Answer / Act / Hand Off capability demonstrations
-- Interactive use-case explorer and accessible FAQ accordion
+- Interactive front-of-house and back-of-house product tour
+- Clear audience, guest value, hotel value, and differentiation sections
+- Embedded 1:28 ChatBlu product demo with a direct YouTube fallback
+- Official ChatBlu wordmark and self-hosted Mona Sans / Hubot Sans typography
+- Editorial cream-and-midnight visual direction with focused product UI moments
 - Responsive navigation and layouts from 320px mobile through large desktop
 - Smooth Lenis scrolling, Framer Motion transitions, and reduced-motion support
 - Automated GitHub Pages deployment
