@@ -38,6 +38,7 @@ import {
 
 const officialSite = 'https://chatblu.ai/'
 const bookDemoUrl = 'https://chatblu.ai/book/'
+const imageBase = `${import.meta.env.BASE_URL}images/`
 
 const navItems = [
   ['Product', '#product'],
@@ -1029,10 +1030,10 @@ function UseCaseExplorer() {
 
 function WhoItsFor() {
   const audiences = [
-    { title: 'Independent Hotels', body: 'Deliver responsive service without turning every guest question into front-desk work.', image: 'https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1200&q=82' },
-    { title: 'Luxury & Lifestyle Hotels', body: 'Use automation without losing the high-touch experience your brand depends on.', image: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=82' },
-    { title: 'Hotel Groups', body: 'Create more consistent guest communication and workflows across properties.', image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=82' },
-    { title: 'Guest Experience Teams', body: 'Understand what guests need and move requests toward resolution faster.', image: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1200&q=82' },
+    { title: 'Independent Hotels', body: 'Deliver responsive service without turning every guest question into front-desk work.', image: `${imageBase}chatblu-hero-hotel.webp` },
+    { title: 'Luxury & Lifestyle Hotels', body: 'Use automation without losing the high-touch experience your brand depends on.', image: `${imageBase}chatblu-human-hospitality.webp` },
+    { title: 'Hotel Groups', body: 'Create more consistent guest communication and workflows across properties.', image: `${imageBase}chatblu-hero-hotel.webp` },
+    { title: 'Guest Experience Teams', body: 'Understand what guests need and move requests toward resolution faster.', image: `${imageBase}chatblu-human-hospitality.webp` },
   ]
 
   return (
