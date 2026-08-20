@@ -13,11 +13,18 @@ A focused redesign of ChatBlu’s landing page that explains how one AI platform
 - **Kept the page human:** concise copy, generous spacing, real service moments, and subtle motion support the story without making the interface feel over-engineered.
 - **Created a clear conversion path:** the embedded product demo and repeated Book a demo actions give visitors an immediate next step.
 
-## Intentionally omitted and future improvements
+## Intentionally omitted
 
 I intentionally omitted unverified integrations, customer logos, testimonials, pricing, and performance statistics. I also avoided the previous long-form structure so the assignment’s core product message remains easy to understand.
 
-With more time, I would validate every workflow with the ChatBlu product team, replace illustrative UI states with production product captures, add analytics and CTA tracking, run broader cross-browser and assistive-technology testing, and further optimize the video-loading experience.
+## What I would improve with more time
+
+- **Functional product widgets:** add small interactive tools and short animations that demonstrate working use cases such as preparing an arrival, booking dining or wellness, routing a guest request, generating a GM briefing, and asking a property-performance question.
+- **A data-grounded AI product guide:** build an AI concierge trained only on approved ChatBlu product information that can explain services, answer visitor questions with source-backed responses, suggest relevant use cases, and hand qualified visitors to the demo flow.
+- **Role-based product tours:** personalize the experience for general managers, guest-facing teams, and department leaders so each visitor immediately sees the workflows most relevant to their responsibilities.
+- **A guided product sandbox:** let visitors safely complete a representative guest-to-hotel workflow using demo data, including the request, ChatBlu’s reasoning, team assignment, and final resolution.
+- **Verified product depth:** validate every workflow with the ChatBlu team, replace illustrative UI states with production product captures, and show confirmed integrations only when supporting information is available.
+- **Measurement and broader QA:** add privacy-conscious analytics and CTA tracking, optimize video loading, and run expanded cross-browser, performance, keyboard, screen-reader, and assistive-technology testing.
 
 ## Tools used
 
