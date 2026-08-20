@@ -1,21 +1,31 @@
 # ChatBlu — One Platform. The Entire Operation.
 
-A focused landing page for ChatBlu, presenting one AI platform across the guest experience and hotel operations.
+A focused redesign of ChatBlu’s landing page that explains how one AI platform supports both the guest experience and the hotel operation.
 
-## Live site
+**Live site:** [varunjose.github.io/Chatblu-Assignment](https://varunjose.github.io/Chatblu-Assignment/)
 
-[View the deployed ChatBlu experience](https://varunjose.github.io/Chatblu-Assignment/)
+## Key product and design decisions
 
-## Experience highlights
+- **Focused the story on five questions:** what ChatBlu does, who it serves, the value for guests and hotels, why it is different, and what the visitor should do next.
+- **Made the product tangible:** the interactive Front of house / Back of house tour shows real hospitality scenarios instead of relying on abstract feature cards.
+- **Designed around one connected operation:** guest conversations, property context, team coordination, and operational analysis are presented as two sides of the same platform.
+- **Used ChatBlu’s visual language:** the official wordmark, cream and midnight palette, Mona Sans, Hubot Sans, restrained blue accents, and warm hospitality imagery keep the experience premium and recognizable.
+- **Kept the page human:** concise copy, generous spacing, real service moments, and subtle motion support the story without making the interface feel over-engineered.
+- **Created a clear conversion path:** the embedded product demo and repeated Book a demo actions give visitors an immediate next step.
 
-- Interactive front-of-house and back-of-house product tour
-- Clear audience, guest value, hotel value, and differentiation sections
-- Embedded 1:28 ChatBlu product demo with a direct YouTube fallback
-- Official ChatBlu wordmark and self-hosted Mona Sans / Hubot Sans typography
-- Editorial cream-and-midnight visual direction with focused product UI moments
-- Responsive navigation and layouts from 320px mobile through large desktop
-- Smooth Lenis scrolling, Framer Motion transitions, and reduced-motion support
-- Automated GitHub Pages deployment
+## Intentionally omitted and future improvements
+
+I intentionally omitted unverified integrations, customer logos, testimonials, pricing, and performance statistics. I also avoided the previous long-form structure so the assignment’s core product message remains easy to understand.
+
+With more time, I would validate every workflow with the ChatBlu product team, replace illustrative UI states with production product captures, add analytics and CTA tracking, run broader cross-browser and assistive-technology testing, and further optimize the video-loading experience.
+
+## Tools used
+
+- **Development:** React, Vite, JavaScript, and responsive CSS
+- **Interaction and motion:** Framer Motion and Lenis
+- **Interface assets:** Lucide React, the official ChatBlu wordmark, Mona Sans, and Hubot Sans
+- **Design and implementation support:** ChatGPT Work / Codex and AI-assisted original hospitality imagery
+- **Quality and deployment:** ESLint, Vite production builds, GitHub, GitHub Actions, and GitHub Pages
 
 ## Local development
 
