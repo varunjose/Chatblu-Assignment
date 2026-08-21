@@ -29,8 +29,9 @@ import {
 import './styles.css'
 
 const bookDemoUrl = 'https://chatblu.ai/book/'
-const logoUrl = `${import.meta.env.BASE_URL}logo-chatblu.svg`
+const brandMarkUrl = `${import.meta.env.BASE_URL}chatblu-mark.png`
 const imageBase = `${import.meta.env.BASE_URL}images/`
+const pressLogoBase = `${import.meta.env.BASE_URL}logos/press/`
 
 const navItems = [
   ['Platform', '#platform'],
@@ -157,6 +158,39 @@ const differences = [
   },
 ]
 
+const pressLogos = [
+  {
+    name: 'Forbes',
+    logo: 'forbes.svg',
+    href: 'https://forbes.es/brandvoice/782612/chatblu-el-gestor-de-inventario-con-ia-made-in-spain-que-hara-que-los-duenos-de-tiendas-online-se-podran-olvidar-ya-de-su-inventario/',
+  },
+  {
+    name: 'Business Insider',
+    logo: 'business_insider.svg',
+    href: 'https://markets.businessinsider.com/news/stocks/chatblu-raises-500k-to-launch-first-autonomous-ai-inventory-agent-aiming-to-replace-human-managers-in-e-commerce-1035005149',
+  },
+  {
+    name: 'Yahoo Finance',
+    logo: 'yahoo_finance.svg',
+    href: 'https://finance.yahoo.com/news/ai-startup-chatblu-secures-500k-214300643.html',
+  },
+  {
+    name: 'GQ',
+    logo: 'gq.svg',
+    href: 'https://gq.co.za/culture/tech/how-chatblu-helps-brands-backed-by-mls-pros-like-atlaua-to-save-costs-using-ai/',
+  },
+  {
+    name: 'Daily Mail',
+    logo: 'daily_mail.svg',
+    href: 'https://www.dailymail.co.uk/news/article-15010405/Kristian-Lukauskis-Alexander-Dillon-Join-Europes-Youngest-Founders-500K-AI-Startup-Raise.html',
+  },
+  {
+    name: 'Mashable',
+    logo: 'mashable.svg',
+    href: 'https://nl.mashable.com/ecommerce/11809/inside-chatblus-game-changing-approach-to-multi-platform-inventory-management-that-has-vcs-with-y-combinator',
+  },
+]
+
 function SmoothScroll() {
   const reduceMotion = useReducedMotion()
 
@@ -188,7 +222,8 @@ function SmoothScroll() {
 function Brand({ footer = false }) {
   return (
     <a className={`brand ${footer ? 'brand--footer' : ''}`} href="#top" aria-label="ChatBlu home">
-      <img src={logoUrl} alt="ChatBlu" />
+      <img src={brandMarkUrl} alt="" />
+      <span>ChatBlu</span>
     </a>
   )
 }
@@ -386,6 +421,38 @@ function Hero() {
         <span>One conversation</span>
         <span className="footnote-line" aria-hidden="true" />
         <span>The entire operation</span>
+      </div>
+    </section>
+  )
+}
+
+function PressMarquee() {
+  return (
+    <section className="press-marquee" aria-label="As seen in">
+      <div className="press-label">As seen in</div>
+      <div className="press-window">
+        <div className="press-track">
+          {[false, true].map((duplicate) => (
+            <div
+              className="press-sequence"
+              aria-hidden={duplicate ? 'true' : undefined}
+              key={duplicate ? 'duplicate' : 'primary'}
+            >
+              {pressLogos.map(({ name, logo, href }) => (
+                <a
+                  className="press-logo-link"
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  tabIndex={duplicate ? -1 : undefined}
+                  key={`${name}-${duplicate ? 'duplicate' : 'primary'}`}
+                >
+                  <img src={`${pressLogoBase}${logo}`} alt={duplicate ? '' : name} />
+                </a>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )
@@ -623,7 +690,7 @@ function ProductTour() {
 
           <div className="tour-visual" aria-live="polite">
             <div className="tour-visual-topbar">
-              <span><i /> Interactive product tour</span>
+              <span><img className="tour-brand-mark" src={brandMarkUrl} alt="" /> Interactive product tour</span>
               <span>{side === 'guest' ? 'Guest experience' : 'Hotel intelligence'}</span>
             </div>
             <TourVisual view={active.view} />
@@ -841,6 +908,7 @@ export default function App() {
       <Header />
       <main>
         <Hero />
+        <PressMarquee />
         <ProductTour />
         <WatchDemo />
         <WhoItsFor />
