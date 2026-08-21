@@ -434,6 +434,7 @@ p {
   grid-template-columns: minmax(0, 0.95fr) minmax(450px, 0.82fr);
   align-items: center;
   gap: clamp(58px, 7vw, 108px);
+  transform: translateY(-2px);
 }
 
 .hero-copy {
