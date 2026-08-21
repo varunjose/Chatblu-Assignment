@@ -374,60 +374,32 @@ function Hero() {
       <div className="hero-noise" aria-hidden="true" />
       <div className="page-shell hero-layout">
         <div className="hero-copy">
-          <motion.p
-            className="eyebrow eyebrow--ink"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55 }}
-          >
+          <p className="eyebrow eyebrow--ink">
             AI agents for hotel operations
-          </motion.p>
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.82, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-          >
+          </p>
+          <h1>
             Hospitality,
             <br />
             handled <em>as one.</em>
-          </motion.h1>
-          <motion.p
-            className="hero-intro"
-            initial={{ opacity: 0, y: 22 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.72, delay: 0.2 }}
-          >
+          </h1>
+          <p className="hero-intro">
             ChatBlu is one AI platform for the guest experience and the hotel operation, answering,
             coordinating, and helping every part of the property move with more context.
-          </motion.p>
-          <motion.div
-            className="hero-actions"
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 0.3 }}
-          >
+          </p>
+          <div className="hero-actions">
             <ArrowButton href={bookDemoUrl} external>
               Book a demo
             </ArrowButton>
             <ArrowButton href="#platform" variant="text">
               Explore the platform
             </ArrowButton>
-          </motion.div>
+          </div>
         </div>
 
-        <motion.div
-          className="hero-visual"
-          initial={{ opacity: 0, scale: 0.97, y: 24 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.95, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-        >
+        <div className="hero-visual">
           <img src={`${imageBase}chatblu-hero-hotel.webp`} alt="An atmospheric hotel interior" />
           <div className="hero-visual-shade" aria-hidden="true" />
-          <motion.div
-            className="hero-conversation"
-            animate={{ y: [0, -5, 0] }}
-            transition={{ duration: 5.8, repeat: Infinity, ease: 'easeInOut' }}
-          >
+          <div className="hero-conversation">
             <div className="conversation-topline">
               <span className="imessage-avatar" aria-hidden="true">M</span>
               <span>
@@ -450,13 +422,13 @@ function Hero() {
               <span><Check size={13} /> Arrival coordinated</span>
               <span><Check size={13} /> Dining in motion</span>
             </div>
-          </motion.div>
+          </div>
           <div className="hero-caption">
             <span>For the guest</span>
             <i aria-hidden="true" />
             <span>For the hotel</span>
           </div>
-        </motion.div>
+        </div>
       </div>
       <div className="hero-footnote page-shell">
         <span>One conversation</span>
