@@ -55,17 +55,39 @@
 }
 
 html {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
   scroll-behavior: smooth;
   scrollbar-color: #5b7184 #e5dfd3;
   scrollbar-width: thin;
 }
 
 body {
+  width: 100%;
+  max-width: 100%;
   margin: 0;
   min-width: 320px;
   overflow-x: hidden;
+  overflow-x: clip;
   background: #fff;
   color: var(--ink);
+}
+
+#root,
+main {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+section,
+footer {
+  width: 100%;
+  max-width: 100%;
 }
 
 body::before {
@@ -147,6 +169,34 @@ p {
   position: relative;
   width: min(1240px, calc(100% - 64px));
   margin: 0 auto;
+}
+
+.page-shell > *,
+.header-inner > *,
+.hero-layout > *,
+.platform-intro > *,
+.tour-layout > *,
+.demo-heading > *,
+.audience-heading > *,
+.audience-grid > *,
+.value-heading > *,
+.value-pair > *,
+.why-layout > *,
+.cta-layout > *,
+.footer-lead > * {
+  min-width: 0;
+}
+
+.press-window,
+.hero-visual,
+.tour-switcher,
+.tour-visual,
+.demo-frame-wrap,
+.audience-image-wrap,
+.value-pair,
+.cta-note,
+.footer-wordmark {
+  max-width: 100%;
 }
 
 .eyebrow {
@@ -2977,7 +3027,16 @@ p {
 
 @media (max-width: 560px) {
   .page-shell {
-    width: calc(100% - 32px);
+    width: calc(100vw - 32px);
+    max-width: calc(100vw - 32px);
+  }
+
+  .site-header,
+  .mobile-nav,
+  main,
+  section,
+  footer {
+    max-width: 100vw;
   }
 
   .brand {
@@ -3038,7 +3097,7 @@ p {
 
   .hero-copy h1 {
     margin-bottom: 27px;
-    font-size: clamp(4.1rem, 20vw, 5.7rem);
+    font-size: clamp(3.35rem, 17vw, 5.7rem);
     line-height: 0.82;
   }
 
@@ -3128,7 +3187,7 @@ p {
   .cta-copy h2,
   .audience-heading h2,
   .why-heading h2 {
-    font-size: clamp(3.55rem, 17vw, 5rem);
+    font-size: clamp(3rem, 15vw, 4.8rem);
     line-height: 0.87;
   }
 
@@ -3345,7 +3404,7 @@ p {
   }
 
   .footer-heading h2 {
-    font-size: clamp(3.5rem, 17vw, 5rem);
+    font-size: clamp(3rem, 15vw, 4.8rem);
   }
 
   .footer-directory {
