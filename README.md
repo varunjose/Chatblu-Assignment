@@ -7,7 +7,7 @@
 - **Focused the story on five questions:** what ChatBlu does, who it serves, the value for guests and hotels, why it is different, and what the visitor should do next.
 - **Made the product tangible:** the interactive Front of house / Back of house tour shows real hospitality scenarios instead of relying on abstract feature cards.
 - **Designed around one connected operation:** guest conversations, property context, team coordination, and operational analysis are presented as two sides of the same platform.
-- **Used ChatBlu’s visual language:** the supplied ChatBlu mark, cream and midnight palette, Mona Sans, Hubot Sans, restrained blue accents, warm hospitality imagery, and a subtle site-wide paper grain keep the experience premium and recognizable.
+- **Used ChatBlu’s visual language:** the supplied ChatBlu mark, a consistent white paper canvas, midnight product accents, Mona Sans, Hubot Sans, restrained blue details, warm hospitality imagery, and subtle fiber grain keep the experience premium and recognizable.
 - **Made the product UI feel editorial and tangible:** the tour and value section use solid paper-like surfaces, fine ink rules, and clear hierarchy instead of glassmorphism or ornamental dashboard effects; the value comparison is intentionally static.
 - **Added verified press context:** the post-hero press folio uses the exact publication artwork and article destinations presented on ChatBlu’s live site, combining a numbered editorial rail with accessible links and a reduced-motion fallback.
 - **Kept the page human:** concise copy, generous spacing, real service moments, and subtle motion support the story without making the interface feel over-engineered.
