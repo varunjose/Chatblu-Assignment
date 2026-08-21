@@ -30,6 +30,7 @@ import './styles.css'
 
 const bookDemoUrl = 'https://chatblu.ai/book/'
 const brandMarkUrl = `${import.meta.env.BASE_URL}chatblu-mark.png`
+const wordmarkUrl = `${import.meta.env.BASE_URL}chatblu-wordmark.png`
 const imageBase = `${import.meta.env.BASE_URL}images/`
 const pressLogoBase = `${import.meta.env.BASE_URL}logos/press/`
 
@@ -219,9 +220,9 @@ function SmoothScroll() {
   return null
 }
 
-function Brand({ footer = false }) {
+function Brand() {
   return (
-    <a className={`brand ${footer ? 'brand--footer' : ''}`} href="#top" aria-label="ChatBlu home">
+    <a className="brand" href="#top" aria-label="ChatBlu home">
       <img src={brandMarkUrl} alt="" />
       <span>ChatBlu</span>
     </a>
@@ -907,15 +908,35 @@ function FinalCta() {
 function Footer() {
   return (
     <footer className="site-footer">
-      <div className="page-shell footer-grid">
-        <div className="footer-brand"><Brand footer /><p>One intelligence layer for the entire hotel operation.</p></div>
-        <nav aria-label="Footer navigation">
-          {navItems.map(([label, href]) => <a href={href} key={href}>{label}</a>)}
-          <a href={bookDemoUrl} target="_blank" rel="noreferrer">Book a demo</a>
-        </nav>
-        <div className="footer-meta">
-          <p>Intelligence behind every stay.</p>
+      <div className="page-shell footer-shell">
+        <div className="footer-lead">
+          <div className="footer-heading">
+            <p className="eyebrow eyebrow--ink">One platform · The entire operation</p>
+            <h2>Intelligence behind<br /><em>every stay.</em></h2>
+          </div>
+          <div className="footer-action">
+            <p>See how one shared intelligence layer can help your guests and hotel teams move together.</p>
+            <ArrowButton href={bookDemoUrl} external>Book a demo</ArrowButton>
+          </div>
+        </div>
+
+        <div className="footer-directory">
+          <nav aria-label="Footer navigation">
+            {navItems.map(([label, href]) => <a href={href} key={href}>{label}</a>)}
+          </nav>
+          <div className="footer-legal" aria-label="Legal links">
+            <a href="https://app.chatblu.ai/privacy" target="_blank" rel="noreferrer">Privacy</a>
+            <a href="https://app.chatblu.ai/terms" target="_blank" rel="noreferrer">Terms</a>
+          </div>
+        </div>
+
+        <a className="footer-wordmark" href="#top" aria-label="ChatBlu home">
+          <img src={wordmarkUrl} alt="ChatBlu" />
+        </a>
+
+        <div className="footer-bottom">
           <span>© {new Date().getFullYear()} ChatBlu</span>
+          <p>Guest asks. ChatBlu understands. The hotel moves.</p>
         </div>
       </div>
     </footer>
