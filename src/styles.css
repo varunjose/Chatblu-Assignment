@@ -551,9 +551,10 @@ p {
 .hero-conversation {
   position: absolute;
   z-index: 3;
-  right: 0;
-  bottom: 165px;
-  left: 6%;
+  top: 112px;
+  right: 8%;
+  bottom: auto;
+  left: 0;
   overflow: hidden;
   border: 1px solid rgba(60, 60, 67, 0.2);
   border-radius: 18px;
@@ -573,18 +574,12 @@ p {
   color: #1c1c1e;
 }
 
-.hero-context-card--guest {
-  z-index: 1;
-  top: 70px;
-  left: 0;
-  width: 84%;
-}
-
 .hero-context-card--action {
   z-index: 4;
-  right: -2%;
-  bottom: 54px;
-  width: 70%;
+  top: 342px;
+  right: 0;
+  bottom: auto;
+  width: 61%;
 }
 
 .context-card-heading {
@@ -607,14 +602,12 @@ p {
   font-size: 0.6rem;
 }
 
-.context-guest-row,
 .context-action-row {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.context-guest-row > span:nth-child(2),
 .context-action-row > span {
   display: flex;
   min-width: 0;
@@ -623,13 +616,11 @@ p {
   gap: 2px;
 }
 
-.context-guest-row strong,
 .context-action-row strong {
   font-size: 0.7rem;
   font-weight: 650;
 }
 
-.context-guest-row small,
 .context-action-row small {
   overflow: hidden;
   color: #77777d;
@@ -638,26 +629,9 @@ p {
   white-space: nowrap;
 }
 
-.context-guest-row > svg,
 .context-action-row > svg {
   flex: 0 0 auto;
   color: #1f8a68;
-}
-
-.context-card-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin-top: 13px;
-}
-
-.context-card-chips span {
-  border-radius: 999px;
-  padding: 5px 8px;
-  background: #edf5fb;
-  color: #176dbd;
-  font-size: 0.55rem;
-  font-weight: 600;
 }
 
 .context-action-row {
@@ -3497,9 +3471,10 @@ p {
   }
 
   .hero-conversation {
-    right: 0;
-    bottom: 150px;
-    left: 4%;
+    top: 56px;
+    right: 7%;
+    bottom: auto;
+    left: 0;
     border-radius: 16px;
   }
 
@@ -3508,16 +3483,11 @@ p {
     padding: 13px 14px;
   }
 
-  .hero-context-card--guest {
-    top: 8px;
-    left: 2%;
-    width: 88%;
-  }
-
   .hero-context-card--action {
+    top: 286px;
     right: 0;
-    bottom: 46px;
-    width: 77%;
+    bottom: auto;
+    width: 70%;
   }
 
   .context-card-heading {
@@ -3529,18 +3499,12 @@ p {
   }
 
   .context-card-heading small,
-  .context-guest-row small,
   .context-action-row small {
     font-size: 0.5rem;
   }
 
-  .context-guest-row strong,
   .context-action-row strong {
     font-size: 0.61rem;
-  }
-
-  .context-card-chips {
-    margin-top: 9px;
   }
 
   .context-action-row {
