@@ -64,7 +64,6 @@ The site includes a fixed responsive header, mobile navigation, flexible product
 - Framer Motion and Lenis
 - Lucide React icons
 - Mona Sans and Hubot Sans
-- ChatBlu's supplied logo and official press assets
 - ChatGPT Work and Codex for design exploration, implementation support, and testing
 - ESLint and Vite production builds for code quality checks
 - GitHub, GitHub Actions, and GitHub Pages for source control and deployment
