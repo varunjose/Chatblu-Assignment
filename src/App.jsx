@@ -9,7 +9,6 @@ import {
   Building2,
   CalendarCheck2,
   Check,
-  CheckCheck,
   ChevronRight,
   CircleCheck,
   Clock3,
@@ -398,25 +397,22 @@ function Hero() {
             transition={{ duration: 5.8, repeat: Infinity, ease: 'easeInOut' }}
           >
             <div className="conversation-topline">
-              <span className="whatsapp-channel" aria-hidden="true">
-                <MessageCircle size={17} fill="currentColor" />
-              </span>
+              <span className="imessage-avatar" aria-hidden="true">M</span>
               <span>
                 <strong>Guest · Room 412</strong>
-                <small>WhatsApp · online</small>
+                <small>iMessage</small>
               </span>
-              <i className="live-dot" aria-label="Active" />
+              <span className="imessage-info" aria-hidden="true">i</span>
             </div>
-            <div className="whatsapp-thread">
-              <div className="whatsapp-bubble whatsapp-bubble--guest">
+            <div className="imessage-thread">
+              <span className="imessage-timestamp">Today 11:42 AM</span>
+              <div className="imessage-bubble imessage-bubble--guest">
                 <p>Could I arrive early, and can you book dinner for two?</p>
-                <span className="message-meta">11:42 <CheckCheck size={14} /></span>
               </div>
-              <div className="whatsapp-bubble whatsapp-bubble--chatblu">
-                <strong>ChatBlu</strong>
-                <p>Your arrival is noted, and dinner is being coordinated.</p>
-                <span className="message-meta">11:42</span>
+              <div className="imessage-bubble imessage-bubble--chatblu">
+                <p>Absolutely. Your arrival is noted, and dinner is being coordinated.</p>
               </div>
+              <span className="message-meta">Delivered</span>
             </div>
             <div className="understood-row">
               <span><Check size={13} /> Arrival coordinated</span>

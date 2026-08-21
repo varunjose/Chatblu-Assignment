@@ -501,11 +501,11 @@ p {
   bottom: 78px;
   left: 26px;
   overflow: hidden;
-  border: 1px solid rgba(7, 94, 84, 0.28);
+  border: 1px solid rgba(60, 60, 67, 0.2);
   border-radius: 18px;
-  background: #efeae2;
+  background: white;
   box-shadow: 0 22px 54px rgba(0, 0, 0, 0.28);
-  color: #111b21;
+  color: #1c1c1e;
 }
 
 .conversation-topline {
@@ -514,11 +514,12 @@ p {
   gap: 10px;
   min-height: 58px;
   padding: 11px 15px;
-  background: #075e54;
-  color: white;
+  border-bottom: 1px solid #d8d8dc;
+  background: #f6f6f7;
+  color: #1c1c1e;
 }
 
-.whatsapp-channel {
+.imessage-avatar {
   display: inline-flex;
   width: 34px;
   height: 34px;
@@ -526,8 +527,10 @@ p {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: #25d366;
+  background: #007aff;
   color: white;
+  font-size: 0.76rem;
+  font-weight: 700;
 }
 
 .avatar {
@@ -556,79 +559,75 @@ p {
 }
 
 .conversation-topline small {
-  color: rgba(255, 255, 255, 0.76);
+  color: #8e8e93;
   font-size: 0.65rem;
 }
 
-.live-dot {
-  width: 7px;
-  height: 7px;
+.imessage-info {
+  display: inline-flex;
+  width: 23px;
+  height: 23px;
   margin-left: auto;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #007aff;
   border-radius: 50%;
-  background: #25d366;
-  box-shadow: 0 0 0 5px rgba(37, 211, 102, 0.16);
-  animation: live-pulse 2.4s ease-in-out infinite;
+  color: #007aff;
+  font-family: Georgia, serif;
+  font-size: 0.72rem;
+  font-style: italic;
+  font-weight: 700;
 }
 
-.whatsapp-thread {
+.imessage-thread {
   display: flex;
   flex-direction: column;
   gap: 9px;
   padding: 16px 15px 13px;
-  background-color: #efeae2;
-  background-image:
-    radial-gradient(circle at 14px 14px, rgba(94, 118, 108, 0.055) 1px, transparent 1.5px),
-    radial-gradient(circle at 34px 30px, rgba(94, 118, 108, 0.04) 1px, transparent 1.5px);
-  background-size: 48px 48px;
-}
-
-.whatsapp-bubble {
-  position: relative;
-  width: fit-content;
-  max-width: 88%;
-  border-radius: 8px;
-  padding: 9px 12px 7px;
-  box-shadow: 0 1px 1px rgba(11, 20, 26, 0.14);
-}
-
-.whatsapp-bubble--guest {
-  align-self: flex-end;
-  background: #d9fdd3;
-}
-
-.whatsapp-bubble--chatblu {
-  align-self: flex-start;
   background: white;
 }
 
-.whatsapp-bubble strong {
-  display: block;
-  margin-bottom: 2px;
-  color: #008069;
-  font-size: 0.63rem;
-  letter-spacing: 0.02em;
+.imessage-timestamp {
+  align-self: center;
+  margin-bottom: 1px;
+  color: #8e8e93;
+  font-size: 0.54rem;
+  font-weight: 600;
 }
 
-.whatsapp-bubble p {
+.imessage-bubble {
+  position: relative;
+  width: fit-content;
+  max-width: 88%;
+  border-radius: 18px;
+  padding: 9px 13px;
+}
+
+.imessage-bubble--guest {
+  align-self: flex-start;
+  background: #e9e9eb;
+  color: #1c1c1e;
+}
+
+.imessage-bubble--chatblu {
+  align-self: flex-end;
+  background: #007aff;
+  color: white;
+}
+
+.imessage-bubble p {
   margin: 0;
-  color: #111b21;
+  color: inherit;
   font-size: 0.8rem;
   line-height: 1.38;
 }
 
 .message-meta {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 3px;
-  margin: 3px 0 -2px 12px;
-  color: #667781;
+  align-self: flex-end;
+  margin: -4px 5px 0 0;
+  color: #8e8e93;
   font-size: 0.53rem;
   line-height: 1;
-}
-
-.message-meta svg {
-  color: #53bdeb;
 }
 
 .understood-row {
@@ -636,18 +635,18 @@ p {
   flex-wrap: wrap;
   gap: 8px;
   padding: 0 15px 14px;
-  background: #efeae2;
+  background: white;
 }
 
 .understood-row span {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  border: 1px solid rgba(0, 128, 105, 0.28);
+  border: 1px solid rgba(0, 122, 255, 0.26);
   border-radius: 999px;
   padding: 6px 9px;
-  background: rgba(255, 255, 255, 0.7);
-  color: #075e54;
+  background: #f1f7ff;
+  color: #0066cc;
   font-size: 0.63rem;
 }
 
@@ -3034,15 +3033,15 @@ p {
     padding: 9px 12px;
   }
 
-  .whatsapp-thread {
+  .imessage-thread {
     padding: 12px 12px 10px;
   }
 
-  .whatsapp-bubble {
+  .imessage-bubble {
     max-width: 94%;
   }
 
-  .whatsapp-bubble p {
+  .imessage-bubble p {
     font-size: 0.72rem;
   }
 
