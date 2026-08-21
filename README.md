@@ -40,13 +40,6 @@ The page includes the press logos and destinations shown on ChatBlu's website, a
 
 The site includes a fixed responsive header, mobile navigation, flexible product layouts, touch-friendly controls, and reduced-motion support. The large footer wordmark and content grid also rearrange for tablet and mobile screens.
 
-## What I intentionally left out
-
-- I did not build real hotel workflows or connect the interface examples to a production backend.
-- I did not show integrations that were not confirmed by the supplied ChatBlu information.
-- I avoided fake performance numbers, customer stories, and testimonials.
-- I kept the page focused instead of adding pricing, a blog, detailed documentation, or separate product pages.
-- I used illustrative product states where verified production screenshots were not available.
 
 ## What I would improve with more time
 
