@@ -789,14 +789,23 @@ function Value() {
   return (
     <section className="value-section" id="value">
       <div className="page-shell">
-        <Reveal className="value-heading">
-          <p className="eyebrow">The value</p>
-          <h2>Better stays.<br /><em>Calmer operations.</em></h2>
-        </Reveal>
+        <div className="value-heading">
+          <div>
+            <p className="eyebrow eyebrow--ink">The value</p>
+            <h2>Better for guests.<br /><em>Lighter for teams.</em></h2>
+          </div>
+          <p className="value-intro">
+            One shared layer helps guests get what they need while giving hotel teams clearer,
+            better-organized work.
+          </p>
+        </div>
 
         <div className="value-pair">
-          <Reveal className="value-panel value-panel--guest" direction="right">
-            <div className="value-panel-top"><MessageCircle size={20} /><span>For hotel guests</span></div>
+          <article className="value-panel value-panel--guest">
+            <div className="value-panel-top">
+              <span className="value-index">01</span>
+              <span><MessageCircle size={19} /> For hotel guests</span>
+            </div>
             <h3>Less waiting.<br />More being looked after.</h3>
             <p>Guests get clear answers, smoother coordination, and thoughtful continuity from before arrival through the stay.</p>
             <ul>
@@ -804,15 +813,13 @@ function Value() {
               <li><Check size={15} /> Preferences carried forward</li>
               <li><Check size={15} /> Requests followed through</li>
             </ul>
-          </Reveal>
+          </article>
 
-          <div className="value-connector" aria-hidden="true">
-            <span>ChatBlu</span>
-            <i />
-          </div>
-
-          <Reveal className="value-panel value-panel--hotel" direction="left" delay={0.1}>
-            <div className="value-panel-top"><BriefcaseBusiness size={20} /><span>For hotel teams</span></div>
+          <article className="value-panel value-panel--hotel">
+            <div className="value-panel-top">
+              <span className="value-index">02</span>
+              <span><BriefcaseBusiness size={19} /> For hotel teams</span>
+            </div>
             <h3>Less chasing.<br />More clarity.</h3>
             <p>Teams receive useful context, organized work, and a more direct view of what the property needs next.</p>
             <ul>
@@ -820,7 +827,7 @@ function Value() {
               <li><Check size={15} /> Requests routed with context</li>
               <li><Check size={15} /> Decisions easier to understand</li>
             </ul>
-          </Reveal>
+          </article>
         </div>
       </div>
     </section>

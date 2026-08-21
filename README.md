@@ -8,7 +8,7 @@
 - **Made the product tangible:** the interactive Front of house / Back of house tour shows real hospitality scenarios instead of relying on abstract feature cards.
 - **Designed around one connected operation:** guest conversations, property context, team coordination, and operational analysis are presented as two sides of the same platform.
 - **Used ChatBlu’s visual language:** the supplied ChatBlu mark, cream and midnight palette, Mona Sans, Hubot Sans, restrained blue accents, and warm hospitality imagery keep the experience premium and recognizable.
-- **Made the product UI feel editorial and tangible:** the tour uses solid paper-like surfaces, fine ink rules, and clear hierarchy instead of glassmorphism or ornamental dashboard effects.
+- **Made the product UI feel editorial and tangible:** the tour and value section use solid paper-like surfaces, fine ink rules, and clear hierarchy instead of glassmorphism or ornamental dashboard effects; the value comparison is intentionally static.
 - **Added verified press context:** the post-hero “As seen in” marquee uses the exact publication artwork and article destinations presented on ChatBlu’s live site, with accessible links and a reduced-motion fallback.
 - **Kept the page human:** concise copy, generous spacing, real service moments, and subtle motion support the story without making the interface feel over-engineered.
 - **Created a clear conversion path:** the embedded product demo and repeated Book a demo actions give visitors an immediate next step.
