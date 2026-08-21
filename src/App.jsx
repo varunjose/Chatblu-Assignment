@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import {
   ArrowRight,
   BarChart3,
@@ -244,8 +244,22 @@ function ArrowButton({ children, href, variant = 'primary', external = false }) 
   )
 }
 
-function Reveal({ children, className = '' }) {
-  return <div className={className}>{children}</div>
+function Reveal({ children, className = '', delay = 0, direction = 'up', ...props }) {
+  const reduceMotion = useReducedMotion()
+  const axis = direction === 'left' ? { x: 18, y: 0 } : direction === 'right' ? { x: -18, y: 0 } : { x: 0, y: 20 }
+
+  return (
+    <motion.div
+      className={className}
+      initial={reduceMotion ? false : { opacity: 0, ...axis }}
+      whileInView={reduceMotion ? undefined : { opacity: 1, x: 0, y: 0 }}
+      viewport={{ once: true, amount: 0.14 }}
+      transition={{ duration: 0.62, delay, ease: [0.22, 1, 0.36, 1] }}
+      {...props}
+    >
+      {children}
+    </motion.div>
+  )
 }
 
 function Header() {
@@ -382,27 +396,8 @@ function Hero() {
           <img src={`${imageBase}chatblu-hero-hotel.webp`} alt="An atmospheric hotel interior" />
           <div className="hero-visual-shade" aria-hidden="true" />
           <motion.div
-            className="hero-context-card hero-context-card--guest"
-            animate={{ y: [0, -3, 0], rotate: [-2.2, -1.6, -2.2] }}
-            transition={{ duration: 7.2, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            <div className="context-card-heading">
-              <span>Guest context</span>
-              <small>Stay profile</small>
-            </div>
-            <div className="context-guest-row">
-              <span className="imessage-avatar" aria-hidden="true">M</span>
-              <span><strong>Maya Chen</strong><small>Room 412 · Arriving today</small></span>
-              <CircleCheck size={18} aria-hidden="true" />
-            </div>
-            <div className="context-card-chips">
-              <span>Early arrival</span>
-              <span>Dinner for two</span>
-            </div>
-          </motion.div>
-          <motion.div
             className="hero-conversation"
-            animate={{ y: [0, -5, 0], rotate: [0.7, 0.25, 0.7] }}
+            animate={{ y: [0, -4, 0], rotate: [-1.15, -0.7, -1.15] }}
             transition={{ duration: 5.8, repeat: Infinity, ease: 'easeInOut' }}
           >
             <div className="conversation-topline">
@@ -430,7 +425,7 @@ function Hero() {
           </motion.div>
           <motion.div
             className="hero-context-card hero-context-card--action"
-            animate={{ y: [0, 4, 0], rotate: [-1.2, -0.5, -1.2] }}
+            animate={{ y: [0, 3, 0], rotate: [-1.7, -1.05, -1.7] }}
             transition={{ duration: 6.6, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
           >
             <div className="context-card-heading">
@@ -667,13 +662,13 @@ function ProductTour() {
           </p>
         </Reveal>
 
-        <div className="intelligence-bridge" aria-label="Shared guest and property intelligence">
+        <Reveal className="intelligence-bridge" delay={0.05} aria-label="Shared guest and property intelligence">
           <span aria-hidden="true" />
           <p><Sparkles size={15} /> Shared guest and property intelligence</p>
           <span aria-hidden="true" />
-        </div>
+        </Reveal>
 
-        <div className="tour-switcher" role="tablist" aria-label="Choose an operation view">
+        <Reveal className="tour-switcher" delay={0.08} role="tablist" aria-label="Choose an operation view">
           <button
             type="button"
             role="tab"
@@ -694,9 +689,9 @@ function ProductTour() {
             <span>Hotel operations</span>
             <strong>Back of house</strong>
           </button>
-        </div>
+        </Reveal>
 
-        <div className="tour-layout">
+        <Reveal className="tour-layout" delay={0.12}>
           <div className="tour-list" role="tabpanel">
             {operations.map((item, index) => {
               const Icon = item.icon
@@ -731,7 +726,7 @@ function ProductTour() {
             </div>
             <TourVisual view={active.view} />
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   )
@@ -825,7 +820,7 @@ function Value() {
   return (
     <section className="value-section" id="value">
       <div className="page-shell">
-        <div className="value-heading">
+        <Reveal className="value-heading">
           <div>
             <p className="eyebrow eyebrow--ink">The value</p>
             <h2>Better for guests.<br /><em>Lighter for teams.</em></h2>
@@ -834,9 +829,9 @@ function Value() {
             One shared layer helps guests get what they need while giving hotel teams clearer,
             better-organized work.
           </p>
-        </div>
+        </Reveal>
 
-        <div className="value-pair">
+        <Reveal className="value-pair" delay={0.08}>
           <article className="value-panel value-panel--guest">
             <div className="value-panel-top">
               <span className="value-index">01</span>
@@ -864,7 +859,7 @@ function Value() {
               <li><Check size={15} /> Decisions easier to understand</li>
             </ul>
           </article>
-        </div>
+        </Reveal>
       </div>
     </section>
   )
@@ -915,16 +910,16 @@ function Testimonials() {
           </Reveal>
         </div>
 
-        <div className="operator-strip" aria-label="Hospitality operators using ChatBlu">
+        <Reveal className="operator-strip" delay={0.08} aria-label="Hospitality operators using ChatBlu">
           {operatorBrands.map((brand) => (
             <div className="operator-brand" key={brand.name}>
               <strong>{brand.name}</strong>
               <span>{brand.detail}</span>
             </div>
           ))}
-        </div>
+        </Reveal>
 
-        <div className="testimonial-grid">
+        <Reveal className="testimonial-grid" delay={0.12}>
           {testimonials.map((testimonial, index) => (
             <article
               className={`testimonial-card ${testimonial.featured ? 'testimonial-card--featured' : ''}`}
@@ -939,7 +934,7 @@ function Testimonials() {
               <span className="testimonial-number" aria-hidden="true">0{index + 1}</span>
             </article>
           ))}
-        </div>
+        </Reveal>
       </div>
     </section>
   )
