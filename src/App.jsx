@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import Lenis from 'lenis'
+import { AnimatePresence, motion } from 'framer-motion'
 import {
   ArrowRight,
   BarChart3,
@@ -223,34 +222,6 @@ const pressLogos = [
   },
 ]
 
-function SmoothScroll() {
-  const reduceMotion = useReducedMotion()
-
-  useEffect(() => {
-    if (reduceMotion) return undefined
-
-    const lenis = new Lenis({
-      duration: 1.05,
-      smoothWheel: true,
-      wheelMultiplier: 0.92,
-      anchors: { offset: -90 },
-    })
-    let frame
-    const raf = (time) => {
-      lenis.raf(time)
-      frame = requestAnimationFrame(raf)
-    }
-    frame = requestAnimationFrame(raf)
-
-    return () => {
-      cancelAnimationFrame(frame)
-      lenis.destroy()
-    }
-  }, [reduceMotion])
-
-  return null
-}
-
 function Brand() {
   return (
     <a className="brand" href="#top" aria-label="ChatBlu home">
@@ -273,21 +244,8 @@ function ArrowButton({ children, href, variant = 'primary', external = false }) 
   )
 }
 
-function Reveal({ children, className = '', delay = 0, direction = 'up' }) {
-  const reduceMotion = useReducedMotion()
-  const axis = direction === 'left' ? { x: 28, y: 0 } : direction === 'right' ? { x: -28, y: 0 } : { x: 0, y: 28 }
-
-  return (
-    <motion.div
-      className={className}
-      initial={reduceMotion ? false : { opacity: 0, ...axis }}
-      whileInView={reduceMotion ? undefined : { opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, amount: 0.16 }}
-      transition={{ duration: 0.72, delay, ease: [0.22, 1, 0.36, 1] }}
-    >
-      {children}
-    </motion.div>
-  )
+function Reveal({ children, className = '' }) {
+  return <div className={className}>{children}</div>
 }
 
 function Header() {
@@ -374,32 +332,79 @@ function Hero() {
       <div className="hero-noise" aria-hidden="true" />
       <div className="page-shell hero-layout">
         <div className="hero-copy">
-          <p className="eyebrow eyebrow--ink">
+          <motion.p
+            className="eyebrow eyebrow--ink"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55 }}
+          >
             AI agents for hotel operations
-          </p>
-          <h1>
+          </motion.p>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.82, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+          >
             Hospitality,
             <br />
             handled <em>as one.</em>
-          </h1>
-          <p className="hero-intro">
+          </motion.h1>
+          <motion.p
+            className="hero-intro"
+            initial={{ opacity: 0, y: 22 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.72, delay: 0.2 }}
+          >
             ChatBlu is one AI platform for the guest experience and the hotel operation, answering,
             coordinating, and helping every part of the property move with more context.
-          </p>
-          <div className="hero-actions">
+          </motion.p>
+          <motion.div
+            className="hero-actions"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, delay: 0.3 }}
+          >
             <ArrowButton href={bookDemoUrl} external>
               Book a demo
             </ArrowButton>
             <ArrowButton href="#platform" variant="text">
               Explore the platform
             </ArrowButton>
-          </div>
+          </motion.div>
         </div>
 
-        <div className="hero-visual">
+        <motion.div
+          className="hero-visual"
+          initial={{ opacity: 0, scale: 0.97, y: 24 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.95, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+        >
           <img src={`${imageBase}chatblu-hero-hotel.webp`} alt="An atmospheric hotel interior" />
           <div className="hero-visual-shade" aria-hidden="true" />
-          <div className="hero-conversation">
+          <motion.div
+            className="hero-context-card hero-context-card--guest"
+            animate={{ y: [0, -3, 0], rotate: [-2.2, -1.6, -2.2] }}
+            transition={{ duration: 7.2, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <div className="context-card-heading">
+              <span>Guest context</span>
+              <small>Stay profile</small>
+            </div>
+            <div className="context-guest-row">
+              <span className="imessage-avatar" aria-hidden="true">M</span>
+              <span><strong>Maya Chen</strong><small>Room 412 · Arriving today</small></span>
+              <CircleCheck size={18} aria-hidden="true" />
+            </div>
+            <div className="context-card-chips">
+              <span>Early arrival</span>
+              <span>Dinner for two</span>
+            </div>
+          </motion.div>
+          <motion.div
+            className="hero-conversation"
+            animate={{ y: [0, -5, 0], rotate: [0.7, 0.25, 0.7] }}
+            transition={{ duration: 5.8, repeat: Infinity, ease: 'easeInOut' }}
+          >
             <div className="conversation-topline">
               <span className="imessage-avatar" aria-hidden="true">M</span>
               <span>
@@ -422,18 +427,31 @@ function Hero() {
               <span><Check size={13} /> Arrival coordinated</span>
               <span><Check size={13} /> Dining in motion</span>
             </div>
-          </div>
+          </motion.div>
+          <motion.div
+            className="hero-context-card hero-context-card--action"
+            animate={{ y: [0, 4, 0], rotate: [-1.2, -0.5, -1.2] }}
+            transition={{ duration: 6.6, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
+          >
+            <div className="context-card-heading">
+              <span>Hotel action</span>
+              <small>Live</small>
+            </div>
+            <div className="context-action-row">
+              <CircleCheck size={17} aria-hidden="true" />
+              <span><strong>Arrival coordinated</strong><small>Front desk has the guest context</small></span>
+            </div>
+            <div className="context-action-row context-action-row--pending">
+              <Clock3 size={17} aria-hidden="true" />
+              <span><strong>Dining in motion</strong><small>Request sent to guest services</small></span>
+            </div>
+          </motion.div>
           <div className="hero-caption">
             <span>For the guest</span>
             <i aria-hidden="true" />
             <span>For the hotel</span>
           </div>
-        </div>
-      </div>
-      <div className="hero-footnote page-shell">
-        <span>One conversation</span>
-        <span className="footnote-line" aria-hidden="true" />
-        <span>The entire operation</span>
+        </motion.div>
       </div>
     </section>
   )
@@ -997,7 +1015,6 @@ function Footer() {
 export default function App() {
   return (
     <>
-      <SmoothScroll />
       <Header />
       <main>
         <Hero />
