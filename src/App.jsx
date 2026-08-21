@@ -429,7 +429,11 @@ function Hero() {
 function PressMarquee() {
   return (
     <section className="press-marquee" aria-label="As seen in">
-      <div className="press-label">As seen in</div>
+      <div className="press-label">
+        <span>Press folio</span>
+        <strong>As seen in</strong>
+        <small>Selected coverage</small>
+      </div>
       <div className="press-window">
         <div className="press-track">
           {[false, true].map((duplicate) => (
@@ -438,7 +442,7 @@ function PressMarquee() {
               aria-hidden={duplicate ? 'true' : undefined}
               key={duplicate ? 'duplicate' : 'primary'}
             >
-              {pressLogos.map(({ name, logo, href }) => (
+              {pressLogos.map(({ name, logo, href }, index) => (
                 <a
                   className="press-logo-link"
                   href={href}
@@ -447,6 +451,7 @@ function PressMarquee() {
                   tabIndex={duplicate ? -1 : undefined}
                   key={`${name}-${duplicate ? 'duplicate' : 'primary'}`}
                 >
+                  <span className="press-index">{String(index + 1).padStart(2, '0')}</span>
                   <img src={`${pressLogoBase}${logo}`} alt={duplicate ? '' : name} />
                 </a>
               ))}
