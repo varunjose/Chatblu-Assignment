@@ -9,6 +9,7 @@ import {
   Building2,
   CalendarCheck2,
   Check,
+  CheckCheck,
   ChevronRight,
   CircleCheck,
   Clock3,
@@ -365,7 +366,7 @@ function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.72, delay: 0.2 }}
           >
-            ChatBlu is one AI platform for the guest experience and the hotel operation—answering,
+            ChatBlu is one AI platform for the guest experience and the hotel operation, answering,
             coordinating, and helping every part of the property move with more context.
           </motion.p>
           <motion.div
@@ -397,14 +398,26 @@ function Hero() {
             transition={{ duration: 5.8, repeat: Infinity, ease: 'easeInOut' }}
           >
             <div className="conversation-topline">
-              <span className="avatar">M</span>
+              <span className="whatsapp-channel" aria-hidden="true">
+                <MessageCircle size={17} fill="currentColor" />
+              </span>
               <span>
                 <strong>Guest · Room 412</strong>
-                <small>WhatsApp</small>
+                <small>WhatsApp · online</small>
               </span>
               <i className="live-dot" aria-label="Active" />
             </div>
-            <p>Could I arrive early—and can you book dinner for two?</p>
+            <div className="whatsapp-thread">
+              <div className="whatsapp-bubble whatsapp-bubble--guest">
+                <p>Could I arrive early, and can you book dinner for two?</p>
+                <span className="message-meta">11:42 <CheckCheck size={14} /></span>
+              </div>
+              <div className="whatsapp-bubble whatsapp-bubble--chatblu">
+                <strong>ChatBlu</strong>
+                <p>Your arrival is noted, and dinner is being coordinated.</p>
+                <span className="message-meta">11:42</span>
+              </div>
+            </div>
             <div className="understood-row">
               <span><Check size={13} /> Arrival coordinated</span>
               <span><Check size={13} /> Dining in motion</span>
@@ -759,7 +772,7 @@ function WhoItsFor() {
           <Reveal delay={0.1} direction="left">
             <p>
               For hotels where guest expectations, property performance, and daily operations all
-              move at once—and every team needs the same picture.
+              move at once, and every team needs the same picture.
             </p>
           </Reveal>
         </div>
@@ -782,7 +795,7 @@ function WhoItsFor() {
         <Reveal className="audience-image-wrap">
           <img src={`${imageBase}chatblu-human-hospitality.webp`} alt="A hotel team member welcoming a guest" />
           <div className="audience-image-copy">
-            <p>Technology should make the hotel feel more attentive—not less human.</p>
+            <p>Technology should make the hotel feel more attentive, not less human.</p>
           </div>
         </Reveal>
       </div>

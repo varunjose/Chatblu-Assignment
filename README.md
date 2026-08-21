@@ -1,4 +1,4 @@
-# ChatBlu — One Platform. The Entire Operation.
+# ChatBlu: One Platform. The Entire Operation.
 
 **Live site:** [varunjose.github.io/Chatblu-Assignment](https://varunjose.github.io/Chatblu-Assignment/)
 
