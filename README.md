@@ -43,6 +43,7 @@ The site includes a fixed responsive header, mobile navigation, flexible product
 
 ## What I would improve with more time
 
+- I could make a static webpage more modern using framer design tool, which requires time and attention to detail.
 - Add small functional product widgets with short animations for use cases such as preparing an arrival, booking dining or wellness, routing a service request, generating a GM briefing, and asking a property performance question.
 - Build a data-grounded AI product guide that can explain ChatBlu's services, answer visitor questions using approved product information, recommend relevant use cases, and guide qualified visitors toward booking a demo.
 - Create role-based tours for general managers, guest experience teams, and department leaders so each visitor can quickly see the workflows most relevant to them.
