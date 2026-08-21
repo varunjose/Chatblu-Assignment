@@ -253,14 +253,14 @@ p {
 .header-inner {
   position: relative;
   display: grid;
-  width: min(1320px, 100%);
+  width: min(1240px, 100%);
   min-height: 70px;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   margin: 0 auto;
   border: 1px solid #103c5d;
   border-top: 0;
-  border-radius: 0 0 22px 22px;
+  border-radius: 0 0 16px 16px;
   padding: 0 14px 0 22px;
   background: #fff;
   box-shadow:
@@ -2762,7 +2762,7 @@ p {
     display: flex;
     min-height: 64px;
     justify-content: space-between;
-    border-radius: 0 0 18px 18px;
+    border-radius: 0 0 14px 14px;
     padding: 0 10px 0 18px;
   }
 
@@ -2780,7 +2780,7 @@ p {
     width: min(100% - 28px, 760px);
     margin: 8px auto 0;
     border: 1px solid #103c5d;
-    border-radius: 18px;
+    border-radius: 14px;
     padding: 18px;
     background: #fff;
     box-shadow: 0 20px 42px rgba(8, 49, 78, 0.2);
