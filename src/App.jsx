@@ -159,6 +159,37 @@ const differences = [
   },
 ]
 
+const operatorBrands = [
+  { name: 'Courtyard', detail: 'by Marriott' },
+  { name: 'Unscripted', detail: 'by Hyatt' },
+  { name: 'Meliá', detail: 'Hotels & Resorts' },
+  { name: 'Grand Isle', detail: 'Resort & Residences' },
+  { name: 'Anichi', detail: 'Resort & Spa' },
+]
+
+const testimonials = [
+  {
+    property: 'Marriott Courtyard',
+    quote:
+      'ChatBlu helped us save 36% in payroll for our opening hiring plan, automating the equivalent of 16 FTE roles.',
+    name: 'Richard Dillon',
+    role: 'COO, Marriott Courtyard, Dominica',
+    featured: true,
+  },
+  {
+    property: 'Anichi Resort',
+    quote: 'Our back office costs dropped 30% and nothing slips through the cracks anymore.',
+    name: 'Alick Lawrence',
+    role: 'Owner, Anichi Resort',
+  },
+  {
+    property: 'PPM Corporation',
+    quote: 'Our resolution time dropped 39% and our guest scores have never been higher.',
+    name: 'Purvi Panwala',
+    role: 'President, PPM Corporation',
+  },
+]
+
 const pressLogos = [
   {
     name: 'Forbes',
@@ -876,6 +907,54 @@ function WhyChatBlu() {
   )
 }
 
+function Testimonials() {
+  return (
+    <section className="testimonials-section" aria-labelledby="testimonials-title">
+      <div className="testimonials-photo" aria-hidden="true" />
+      <div className="page-shell testimonials-shell">
+        <div className="testimonials-heading">
+          <Reveal>
+            <p className="eyebrow eyebrow--ink">Trusted by hotel operators</p>
+            <h2 id="testimonials-title">Better stays.<br /><em>Stronger operations.</em></h2>
+          </Reveal>
+          <Reveal delay={0.1} direction="left">
+            <p>
+              Outcomes shared by hospitality operators using ChatBlu across guest-facing and
+              back-office workflows.
+            </p>
+          </Reveal>
+        </div>
+
+        <div className="operator-strip" aria-label="Hospitality operators using ChatBlu">
+          {operatorBrands.map((brand) => (
+            <div className="operator-brand" key={brand.name}>
+              <strong>{brand.name}</strong>
+              <span>{brand.detail}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="testimonial-grid">
+          {testimonials.map((testimonial, index) => (
+            <article
+              className={`testimonial-card ${testimonial.featured ? 'testimonial-card--featured' : ''}`}
+              key={testimonial.property}
+            >
+              <p className="testimonial-property">{testimonial.property}</p>
+              <blockquote>“{testimonial.quote}”</blockquote>
+              <footer>
+                <strong>{testimonial.name}</strong>
+                <span>{testimonial.role}</span>
+              </footer>
+              <span className="testimonial-number" aria-hidden="true">0{index + 1}</span>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function FinalCta() {
   return (
     <section className="final-cta" id="demo">
@@ -956,6 +1035,7 @@ export default function App() {
         <WhoItsFor />
         <Value />
         <WhyChatBlu />
+        <Testimonials />
         <FinalCta />
       </main>
       <Footer />

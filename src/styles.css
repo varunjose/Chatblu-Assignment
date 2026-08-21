@@ -1694,6 +1694,26 @@ p {
   color: var(--ink);
 }
 
+.platform-section::before {
+  position: absolute;
+  top: 44px;
+  right: 0;
+  width: min(48vw, 780px);
+  height: 610px;
+  background:
+    linear-gradient(90deg, #fff 0%, rgba(255, 255, 255, 0.84) 18%, rgba(255, 255, 255, 0.22) 72%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.2), #fff 96%),
+    url('/Chatblu-Assignment/images/chatblu-hero-hotel.webp') 58% center / cover no-repeat;
+  content: '';
+  filter: saturate(0.72) contrast(0.94);
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.platform-section .page-shell {
+  z-index: 1;
+}
+
 .platform-orbit {
   display: none;
 }
@@ -2378,11 +2398,28 @@ p {
 
 /* Why */
 .why-section {
+  position: relative;
+  overflow: hidden;
   padding: 154px 0 160px;
   background: #fff;
 }
 
+.why-section::before {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, #fff 0%, rgba(255, 255, 255, 0.96) 39%, rgba(255, 255, 255, 0.79) 68%, #fff 100%),
+    linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, 0.32) 24%, rgba(255, 255, 255, 0.5) 70%, #fff 100%),
+    url('/Chatblu-Assignment/images/chatblu-human-hospitality.webp') 68% center / cover no-repeat;
+  content: '';
+  filter: saturate(0.68);
+  opacity: 0.52;
+  pointer-events: none;
+}
+
 .why-layout {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: 0.88fr 0.8fr;
   align-items: start;
@@ -2457,6 +2494,190 @@ p {
   background: var(--ink);
   color: white;
   transform: translateX(3px);
+}
+
+/* Operator stories */
+.testimonials-section {
+  position: relative;
+  overflow: hidden;
+  padding: 148px 0 158px;
+  border-top: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+}
+
+.testimonials-photo {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(58vw, 920px);
+  height: 600px;
+  background:
+    linear-gradient(90deg, #fff 0%, rgba(255, 255, 255, 0.72) 23%, rgba(255, 255, 255, 0.18) 74%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, #fff 98%),
+    url('/Chatblu-Assignment/images/chatblu-hero-hotel.webp') center / cover no-repeat;
+  filter: saturate(0.72) contrast(0.92);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.testimonials-shell {
+  position: relative;
+  z-index: 1;
+}
+
+.testimonials-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.58fr);
+  align-items: end;
+  gap: 90px;
+  margin-bottom: 82px;
+}
+
+.testimonials-heading h2 {
+  max-width: 790px;
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(4.4rem, 7.4vw, 7.35rem);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 0.86;
+}
+
+.testimonials-heading h2 em {
+  color: #1f6faf;
+  font-weight: 400;
+}
+
+.testimonials-heading > div:last-child p {
+  max-width: 465px;
+  margin: 0 0 8px;
+  color: #56636b;
+  font-size: 1rem;
+}
+
+.operator-strip {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin-bottom: 72px;
+  border: 1px solid rgba(7, 22, 33, 0.22);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.operator-brand {
+  display: flex;
+  min-width: 0;
+  min-height: 128px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  border-right: 1px solid rgba(7, 22, 33, 0.16);
+  padding: 24px 18px;
+  text-align: center;
+}
+
+.operator-brand:last-child {
+  border-right: 0;
+}
+
+.operator-brand strong {
+  color: #263641;
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 1.7vw, 1.48rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1;
+}
+
+.operator-brand span {
+  color: #758088;
+  font-size: 0.55rem;
+  font-weight: 650;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.operator-brand:nth-child(even) {
+  background: #f4f7f8;
+}
+
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.84fr) minmax(0, 0.84fr);
+  border: 1px solid rgba(7, 22, 33, 0.22);
+  background: #fff;
+}
+
+.testimonial-card {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 520px;
+  flex-direction: column;
+  border-right: 1px solid rgba(7, 22, 33, 0.18);
+  padding: 42px 40px 40px;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.testimonial-card:last-child {
+  border-right: 0;
+}
+
+.testimonial-card--featured {
+  background: #f7f3eb;
+}
+
+.testimonial-property {
+  margin: 0 0 78px;
+  color: #243640;
+  font-size: 0.66rem;
+  font-weight: 750;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.testimonial-card blockquote {
+  margin: 0;
+  color: #12232d;
+  font-family: var(--serif);
+  font-size: clamp(1.75rem, 2.15vw, 2.35rem);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.16;
+}
+
+.testimonial-card--featured blockquote {
+  font-size: clamp(2rem, 2.55vw, 2.75rem);
+}
+
+.testimonial-card footer {
+  display: flex;
+  margin-top: auto;
+  flex-direction: column;
+  gap: 4px;
+  border-top: 1px solid rgba(7, 22, 33, 0.17);
+  padding-top: 27px;
+}
+
+.testimonial-card footer strong {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.testimonial-card footer span {
+  color: #67737b;
+  font-size: 0.7rem;
+}
+
+.testimonial-number {
+  position: absolute;
+  top: 40px;
+  right: 36px;
+  color: #869198;
+  font-family: var(--serif);
+  font-size: 0.72rem;
 }
 
 /* CTA and footer */
@@ -2892,6 +3113,7 @@ p {
   .audience-section,
   .value-section,
   .why-section,
+  .testimonials-section,
   .final-cta {
     padding-top: 112px;
     padding-bottom: 116px;
@@ -3005,6 +3227,49 @@ p {
   .why-heading {
     position: relative;
     top: auto;
+  }
+
+  .testimonials-heading {
+    grid-template-columns: 1fr;
+    gap: 34px;
+    margin-bottom: 64px;
+  }
+
+  .testimonials-heading > div:last-child p {
+    max-width: 610px;
+  }
+
+  .operator-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-bottom: 54px;
+  }
+
+  .operator-brand {
+    border-bottom: 1px solid rgba(7, 22, 33, 0.16);
+  }
+
+  .operator-brand:nth-child(even) {
+    border-right: 0;
+  }
+
+  .operator-brand:last-child {
+    grid-column: 1 / -1;
+    border-bottom: 0;
+  }
+
+  .testimonial-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .testimonial-card {
+    min-height: 460px;
+  }
+
+  .testimonial-card--featured {
+    grid-column: 1 / -1;
+    min-height: 440px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(7, 22, 33, 0.18);
   }
 
   .cta-layout {
@@ -3176,6 +3441,7 @@ p {
   .audience-section,
   .value-section,
   .why-section,
+  .testimonials-section,
   .final-cta {
     padding-top: 88px;
     padding-bottom: 92px;
@@ -3186,9 +3452,23 @@ p {
   .value-heading h2,
   .cta-copy h2,
   .audience-heading h2,
-  .why-heading h2 {
+  .why-heading h2,
+  .testimonials-heading h2 {
     font-size: clamp(3rem, 15vw, 4.8rem);
     line-height: 0.87;
+  }
+
+  .platform-section::before {
+    top: 0;
+    width: 100%;
+    height: 430px;
+    background-position: 62% center;
+    opacity: 0.24;
+  }
+
+  .why-section::before {
+    background-position: 72% center;
+    opacity: 0.32;
   }
 
   .platform-summary {
@@ -3375,6 +3655,67 @@ p {
 
   .difference-row:hover {
     padding: 0 8px;
+  }
+
+  .testimonials-photo {
+    width: 100%;
+    height: 490px;
+    background-position: 58% center;
+    opacity: 0.3;
+  }
+
+  .testimonials-heading {
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+
+  .operator-strip {
+    grid-template-columns: 1fr;
+    margin-bottom: 44px;
+  }
+
+  .operator-brand,
+  .operator-brand:nth-child(even),
+  .operator-brand:last-child {
+    grid-column: auto;
+    min-height: 96px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(7, 22, 33, 0.16);
+  }
+
+  .operator-brand:last-child {
+    border-bottom: 0;
+  }
+
+  .testimonial-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .testimonial-card,
+  .testimonial-card--featured {
+    grid-column: auto;
+    min-height: 420px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(7, 22, 33, 0.18);
+    padding: 32px 24px 34px;
+  }
+
+  .testimonial-card:last-child {
+    border-bottom: 0;
+  }
+
+  .testimonial-property {
+    margin-bottom: 62px;
+  }
+
+  .testimonial-card blockquote,
+  .testimonial-card--featured blockquote {
+    font-size: clamp(1.75rem, 8.5vw, 2.25rem);
+  }
+
+  .testimonial-number {
+    top: 31px;
+    right: 24px;
   }
 
   .cta-copy > p:nth-of-type(2) {
