@@ -728,8 +728,6 @@ p {
   height: 1px;
   flex: 1;
   background: linear-gradient(90deg, rgba(255, 255, 255, 0.14), var(--blue), rgba(255, 255, 255, 0.14));
-  background-size: 180% 100%;
-  animation: line-flow 4s linear infinite;
 }
 
 .hero-footnote {
